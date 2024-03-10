@@ -6,7 +6,7 @@ from google.cloud import storage
 
 
 # Imposta il percorso del tuo file JSON di chiave di servizio
-key_path = r"C:\Users\ECHIERDF9\PycharmProjects\GCS_Asset_pythonProject\gcs_asset\smooth-tesla-413121-a1ac05929582.json"
+key_path = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\GCS_Asset\GCS_Asset\gcs_asset_components\smooth-tesla-413121-a1ac05929582.json"
 
 # Crea un client di storage
 #cs = storage.Client()
