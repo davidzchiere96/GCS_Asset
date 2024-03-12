@@ -4,7 +4,7 @@ import logging
 from google.cloud import storage
 import os
 from google.cloud import storage
-import
+#import
 def storage_client():
     #service account key JSON path
     key_path = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\GCS_Asset\GCS_Asset\gcs_asset_components\smooth-tesla-413121-a1ac05929582.json"
