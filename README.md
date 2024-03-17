@@ -17,7 +17,7 @@ GCS Python Client Doc: https://cloud.google.com/python/docs/reference/storage/la
 ###
 
 ### Main Architecture
-<br>
+
 <p align="center">
   <img src="C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\GCS_Asset\GCS_Asset\doc\img\GCS_ASSET_CODE_FLOW.png" />
 </p>
