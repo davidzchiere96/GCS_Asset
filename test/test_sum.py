@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
-from gcs_asset_components.sum import somma
+from src.sum import somma
 
 
 class TestSomma(unittest.TestCase):

@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
 #import gcs_asset.cloudStorage #import storage_client
-from gcs_asset_components.getStorageBucket import get_bucket_name
+from src.getStorageBucket import get_bucket_name
 #from test_cloudStorage import TestStorageClient
 import test_cloudStorage
 

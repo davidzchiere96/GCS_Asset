@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
-from gcs_asset_components.cloudStorage import storage_client, storage
+from src.cloudStorage import storage_client, storage
 
 class TestStorageClient(unittest.TestCase):
 
