@@ -6,7 +6,6 @@ import cloudStorage
 
 log = logger.logger()
 client = cloudStorage.storage_client()
-print("ciao")
 
 def get_bucket_name():  # def get_bucket_name(gcs_bucket):
     bucket_name = "asset_storage_bucket"  # bucket_name = "asset_storage_bucket"

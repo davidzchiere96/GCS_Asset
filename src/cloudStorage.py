@@ -24,7 +24,7 @@ def storage_client():      # def storage_client(service_account_path):
     return client
 
 
-storage_client()
+# storage_client()
 
 
 
