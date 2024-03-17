@@ -1,10 +1,11 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
-import logging
 
+import logger
 import cloudStorage
 import getStorageBucket
 # from google.cloud import storage
 
+log = logger.logger()
 client = cloudStorage.storage_client()
 
 
@@ -15,7 +16,7 @@ def create_new_bucket():
     new_bucket_name = "asset_storage_bucket_new"
     new_bucket = client.create_bucket(new_bucket_name)
 
-    logging.info(f"New bucket {new_bucket_name} created!")
+    log.info(f"New bucket {new_bucket_name} created!")
     return new_bucket
 
 

@@ -1,9 +1,10 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
 
-import logging
+import logger
 import cloudStorage
 from google.cloud import storage
 
+log = logger.logger()
 
 # Imposta il percorso del tuo file JSON di chiave di servizio
 key_path = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\GCS_Asset\GCS_Asset\src\config\smooth-tesla-413121-a1ac05929582.json"
