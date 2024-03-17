@@ -12,6 +12,8 @@ Google Cloud Storage API libraries set-up
 GCS Doc: https://cloud.google.com/storage/docs?hl=it
 
 GCS Python Client Doc: https://cloud.google.com/python/docs/reference/storage/latest
+
+###
 ###
 
 ### Main Architecture
