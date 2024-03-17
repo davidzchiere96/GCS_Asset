@@ -2,7 +2,7 @@
 import logging
 
 import cloudStorage
-#from google.cloud import storage
+# from google.cloud import storage
 
 client = cloudStorage.storage_client()
 
@@ -14,4 +14,4 @@ def get_bucket_name():
 
     return(bucket)
 
-#get_bucket_name()
+# get_bucket_name()

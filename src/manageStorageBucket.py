@@ -3,14 +3,14 @@ import logging
 
 import cloudStorage
 import getStorageBucket
-#from google.cloud import storage
+# from google.cloud import storage
 
 client = cloudStorage.storage_client()
 
 
 def create_new_bucket():
 
-    #new_bucket_name = input(f"Bucket to create: ")
+    # new_bucket_name = input(f"Bucket to create: ")
 
     new_bucket_name = "asset_storage_bucket_new"
     new_bucket = client.create_bucket(new_bucket_name)
@@ -21,8 +21,8 @@ def create_new_bucket():
 
 def delete_bucket():
 
-    #bucket_name = "asset_storage_bucket_new"
-    #bucket = client.get_bucket(bucket_name)
+    # bucket_name = "asset_storage_bucket_new"
+    # bucket = client.get_bucket(bucket_name)
 
     bucket = getStorageBucket.get_bucket_name()
 
@@ -31,5 +31,5 @@ def delete_bucket():
     logging.info("Bucket deleted!")
     return bucket
 
-#create_new_bucket()
-#delete_bucket()
+# create_new_bucket()
+# delete_bucket()
