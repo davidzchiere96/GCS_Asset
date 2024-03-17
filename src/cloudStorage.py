@@ -2,7 +2,6 @@
 # Client connector
 
 import logging
-import os
 from google.cloud import storage
 
 

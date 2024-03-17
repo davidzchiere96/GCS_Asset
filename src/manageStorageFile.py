@@ -1,8 +1,13 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
 import logging
+
+# Per implementare procedura di graceful shutdown
+# import os
+# import signal
+# from contextlib import contextmanager
+
 import cloudStorage
 import getStorageBucket
-#from google.cloud import storage
 
 client = cloudStorage.storage_client()
 
