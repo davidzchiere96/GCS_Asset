@@ -7,7 +7,7 @@ from google.cloud import storage
 #import
 def storage_client():
     #service account key JSON path
-    key_path = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\GCS_Asset\GCS_Asset\gcs_asset_components\smooth-tesla-413121-a1ac05929582.json"
+    key_path = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\GCS_Asset\GCS_Asset\src\config\smooth-tesla-413121-a1ac05929582.json"
 
     #cs = storage.Client()
     #client = cs.from_service_account_json(key_path)

@@ -17,7 +17,7 @@ def upload_file():
     # istanzia la creazione dell'oggetto blob
     blob = bucket.blob(file_name)
 
-    local_file_path = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\GCS_Asset\GCS_Asset\gcs_asset_components\message.json"
+    local_file_path = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\GCS_Asset\GCS_Asset\src\config\message.json"
     # USE THIS:
     # local_file_path = input(f"Local file path: ")
 
