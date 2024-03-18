@@ -8,29 +8,26 @@ import getStorageBucket
 log = logger.logger()
 client = cloudStorage.storage_client()
 
-
-def create_new_bucket():
+def create_new_bucket(bucket_name):
 
     # new_bucket_name = input(f"Bucket to create: ")
 
-    new_bucket_name = "asset_storage_bucket_new"
-    new_bucket = client.create_bucket(new_bucket_name)
+    new_bucket = client.create_bucket(bucket_name)
 
-    log.info(f"New bucket {new_bucket_name} created!")
+    log.info(f"New bucket {bucket_name} created!")
     return new_bucket
 
-
-def delete_bucket():
+# bucket_to_delete = "asset_storage_bucket_new"
+def delete_bucket(bucket_name):
 
     # bucket_name = "asset_storage_bucket_new"
     # bucket = client.get_bucket(bucket_name)
 
-    bucket = getStorageBucket.get_bucket_name()
-
+    bucket = getStorageBucket.get_bucket(bucket_name)
     bucket.delete(force=True)
 
-    logging.info("Bucket deleted!")
+    log.info(f"Bucket {bucket_name} deleted!")
     return bucket
 
-# create_new_bucket()
-# delete_bucket()
+# create_new_bucket("asset_storage_bucket_new")
+delete_bucket("asset_storage_bucket_new")

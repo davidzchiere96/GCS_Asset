@@ -1,43 +1,58 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
+
 import logger
+import cloudStorage
+import getStorageBucket
 
 # Per implementare procedura di graceful shutdown
 # import os
 # import signal
 # from contextlib import contextmanager
 
-import cloudStorage
-import getStorageBucket
 
 log = logger.logger()
 client = cloudStorage.storage_client()
 
-bucket = getStorageBucket.get_bucket_name()
 
-def upload_file():
+def upload_file(bucket_name, file_name, local_file_path):
 
-    file_name = "message_new.json"
-    # USE THIS:
-    # file_name = input(f"File to upload in the bucket {bucket_name}: ")
-
+    bucket = getStorageBucket.get_bucket(bucket_name)
     # istanzia la creazione dell'oggetto blob
     blob = bucket.blob(file_name)
-
-    local_file_path = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\GCS_Asset\GCS_Asset\src\config\message.json"
-    # USE THIS:
-    # local_file_path = input(f"Local file path: ")
 
     # upload del file
     file_to_upload = blob.upload_from_filename(local_file_path)
 
-    log.info(f"File {file_name} uploaded in bucket {bucket}!")
-    return file_to_upload
+    log.info(f"File {file_name} uploaded in bucket {bucket_name}.")
+    return
 
 
-# def download_file():
+def download_file(bucket_name, file_name, destination_path):
 
-# def delete_file():
+    bucket = getStorageBucket.get_bucket(bucket_name)
+    blob = bucket.blob(file_name)
 
+    # download del file
+    file_to_download = blob.download_to_filename(destination_path)
+
+    log.info(f"File {file_name} downloaded from bucket {bucket_name} to {destination_path}.")
+    return
+
+
+def delete_file(bucket_name, file_name):
+
+    bucket = getStorageBucket.get_bucket(bucket_name)
+    blob = bucket.blob(file_name)
+
+    file_to_delete = blob.delete()
+
+    log.info(f"File {file_name} deleted from bucket {bucket_name}.")
+    return
+
+
+# upload_file("asset_storage_bucket", "message_newest.json", "config\message.json")
+# download_file("asset_storage_bucket", "message_newest.json", "config\message_newest.json")
+# delete_file("asset_storage_bucket", "message_newest.json")
 
 
 
@@ -48,9 +63,7 @@ def upload_file():
 #    logging.info("Bucket deleted!")
 #    return bucket
 
-#upload_file()
-#download_file()
-#delete_file()
+
 
 # Sostituisci "il_tuo_bucket" con il nome del tuo bucket
 #bucket_name = "asset_storage_bucket"

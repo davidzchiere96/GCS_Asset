@@ -19,7 +19,7 @@ def storage_client():      # def storage_client(service_account_path):
     # cs = storage.Client()
     # client = cs.from_service_account_json(key_path)
     client = storage.Client.from_service_account_json(json_credentials_path=key_path)
-    log.info("Client connected")
+    log.info("Client connected!")
 
     return client
 
