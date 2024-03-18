@@ -15,9 +15,9 @@ def create_bucket(bucket_name):
     new_bucket = client.create_bucket(bucket_name)
 
     log.info(f"New bucket {bucket_name} created!")
-    return new_bucket
+    return
 
-# bucket_to_delete = "asset_storage_bucket_new"
+
 def delete_bucket(bucket_name):
 
     # bucket_name = "asset_storage_bucket_new"
@@ -27,7 +27,7 @@ def delete_bucket(bucket_name):
     bucket.delete(force=True)
 
     log.info(f"Bucket {bucket_name} deleted!")
-    return bucket
+    return
 
-# create_bucket("asset_storage_bucket_new")
-delete_bucket("asset_storage_bucket_new")
+# create_bucket("bucket_due")
+# delete_bucket("bucket_due")

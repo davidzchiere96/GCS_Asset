@@ -16,6 +16,6 @@ def get_bucket(gcs_bucket):
     bucket = client.get_bucket(bucket_name)
     log.info(f"Bucket {bucket_name} returned!")
 
-    return(bucket)
+    return bucket
 
 # get_bucket()
