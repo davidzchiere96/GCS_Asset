@@ -8,7 +8,7 @@ import getStorageBucket
 log = logger.logger()
 client = cloudStorage.storage_client()
 
-def create_new_bucket(bucket_name):
+def create_bucket(bucket_name):
 
     # new_bucket_name = input(f"Bucket to create: ")
 
@@ -29,5 +29,5 @@ def delete_bucket(bucket_name):
     log.info(f"Bucket {bucket_name} deleted!")
     return bucket
 
-# create_new_bucket("asset_storage_bucket_new")
+# create_bucket("asset_storage_bucket_new")
 delete_bucket("asset_storage_bucket_new")
