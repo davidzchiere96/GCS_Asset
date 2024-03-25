@@ -5,10 +5,10 @@ import logger
 import cloudStorage
 
 log = logger.logger()
-client = cloudStorage.storage_client()
 
 # def get_bucket():
 def get_bucket(gcs_bucket):
+    client = cloudStorage.storage_client()
     # bucket_name = "asset_storage_bucket"
     bucket_name = gcs_bucket
     # USE THIS:
@@ -18,4 +18,4 @@ def get_bucket(gcs_bucket):
 
     return bucket
 
-# get_bucket()
+# get_bucket("asset_storage_bucket")

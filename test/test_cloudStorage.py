@@ -1,9 +1,4 @@
 import unittest
-from unittest.mock import MagicMock
-from cloudStorage import storage_client
-from google.cloud import storage
-
-import unittest
 from unittest.mock import patch, MagicMock
 import cloudStorage
 
