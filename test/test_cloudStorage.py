@@ -1,24 +1,23 @@
 import unittest
 from unittest.mock import MagicMock
-from src.cloudStorage import storage_client, storage
+from cloudStorage import storage_client
+from google.cloud import storage
+
+import unittest
+from unittest.mock import patch, MagicMock
+import cloudStorage
 
 class TestStorageClient(unittest.TestCase):
-
-    def test_storage_client(self):
-        # Creiamo un mock per il client di Google Cloud Storage
-        mock_storage_client = MagicMock()
-
-        # Sovrascriviamo la funzione storage_client con il nostro mock
-        storage.Client.from_service_account_json = MagicMock(return_value=mock_storage_client)
-
+    @patch('cloudStorage.storage.Client.from_service_account_json')
+    def test_storage_client(self, mock_from_service_account_json):
         # Chiamiamo la funzione storage_client
-        result = storage_client()
+        client = cloudStorage.storage_client()
 
-        # Verifichiamo che il mock sia stato chiamato correttamente
-        storage.Client.from_service_account_json.assert_called_once()
+        # Verifichiamo che la funzione from_service_account_json sia stata chiamata
+        mock_from_service_account_json.assert_called_once_with(json_credentials_path='config\smooth-tesla-413121-a1ac05929582.json')
 
-        # Verifichiamo che il risultato sia quello che ci aspettiamo
-        self.assertEqual(result, mock_storage_client)
+        # Verifichiamo che il client sia stato creato correttamente
+        self.assertIsInstance(client, MagicMock)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
