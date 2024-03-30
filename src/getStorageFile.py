@@ -1,7 +1,7 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
 
 import logger
-import cloudStorage
+import cloudStorageClient
 from google.cloud import storage
 
 log = logger.logger()

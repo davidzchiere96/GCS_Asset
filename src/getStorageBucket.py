@@ -2,13 +2,15 @@
 # Bucket connector
 
 import logger
-import cloudStorage
+# import cloudStorageClient
+from cloudStorageClient import StorageClient
 
 log = logger.logger()
 
 # def get_bucket():
 def get_bucket(gcs_bucket):
-    client = cloudStorage.storage_client()
+    storage_client = StorageClient()
+    client = storage_client.get_client()
     # bucket_name = "asset_storage_bucket"
     bucket_name = gcs_bucket
     # USE THIS:

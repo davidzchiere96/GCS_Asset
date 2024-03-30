@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import patch, MagicMock
 import getStorageBucket
-import cloudStorage
+
 
 class TestGetStorageBucket(unittest.TestCase):
-    @patch('getStorageBucket.cloudStorage.storage_client')
+    @patch('getStorageBucket.StorageClient.get_client')
     def test_get_bucket(self, mock_storage_client):
         # Simuliamo il comportamento di storage_client()
         mock_client = MagicMock()

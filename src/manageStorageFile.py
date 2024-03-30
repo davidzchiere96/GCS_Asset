@@ -1,7 +1,7 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
 
 import logger
-import cloudStorage
+import cloudStorageClient
 import getStorageBucket
 
 # Per implementare procedura di graceful shutdown
@@ -11,7 +11,7 @@ import getStorageBucket
 
 
 log = logger.logger()
-client = cloudStorage.storage_client()
+client = cloudStorageClient.storage_client()
 
 
 def upload_file(bucket_name, file_name, local_file_path):

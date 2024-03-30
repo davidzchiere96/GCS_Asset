@@ -1,5 +1,5 @@
 
-import cloudStorage
+import cloudStorageClient
 from google.cloud import storage
 
 # Read from Cloud Storage
