@@ -1,7 +1,7 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
 
 import logger
-import cloudStorageClient
+from cloudStorageClient import StorageClient
 import getStorageBucket
 
 # Per implementare procedura di graceful shutdown
@@ -11,43 +11,73 @@ import getStorageBucket
 
 
 log = logger.logger()
-client = cloudStorageClient.storage_client()
+# client = cloudStorageClient.storage_client()
 
+class File:
+    # def __init__(self):
+    #     self.storage_client = StorageClient().get_client()
 
-def upload_file(bucket_name, file_name, local_file_path):
+    def upload_file(self, bucket_name, file_name, local_file_path):
+        bucket = getStorageBucket.get_bucket(bucket_name)
+        # istanzia la creazione dell'oggetto blob
+        blob = bucket.blob(file_name)
 
-    bucket = getStorageBucket.get_bucket(bucket_name)
-    # istanzia la creazione dell'oggetto blob
-    blob = bucket.blob(file_name)
+        # upload del file
+        file_to_upload = blob.upload_from_filename(local_file_path)
+        log.info(f"File {file_name} uploaded in bucket {bucket_name}.")
+        return
 
-    # upload del file
-    file_to_upload = blob.upload_from_filename(local_file_path)
+    def download_file(self, bucket_name, file_name, destination_path):
+        bucket = getStorageBucket.get_bucket(bucket_name)
+        blob = bucket.blob(file_name)
 
-    log.info(f"File {file_name} uploaded in bucket {bucket_name}.")
-    return
+        # download del file
+        file_to_download = blob.download_to_filename(destination_path)
+        log.info(f"File {file_name} downloaded from bucket {bucket_name} to {destination_path}.")
+        return
 
+    def delete_file(self, bucket_name, file_name):
+        bucket = getStorageBucket.get_bucket(bucket_name)
+        blob = bucket.blob(file_name)
 
-def download_file(bucket_name, file_name, destination_path):
+        file_to_delete = blob.delete()
+        log.info(f"File {file_name} deleted from bucket {bucket_name}.")
+        return
 
-    bucket = getStorageBucket.get_bucket(bucket_name)
-    blob = bucket.blob(file_name)
-
-    # download del file
-    file_to_download = blob.download_to_filename(destination_path)
-
-    log.info(f"File {file_name} downloaded from bucket {bucket_name} to {destination_path}.")
-    return
-
-
-def delete_file(bucket_name, file_name):
-
-    bucket = getStorageBucket.get_bucket(bucket_name)
-    blob = bucket.blob(file_name)
-
-    file_to_delete = blob.delete()
-
-    log.info(f"File {file_name} deleted from bucket {bucket_name}.")
-    return
+# def upload_file(bucket_name, file_name, local_file_path):
+#
+#     bucket = getStorageBucket.get_bucket(bucket_name)
+#     # istanzia la creazione dell'oggetto blob
+#     blob = bucket.blob(file_name)
+#
+#     # upload del file
+#     file_to_upload = blob.upload_from_filename(local_file_path)
+#
+#     log.info(f"File {file_name} uploaded in bucket {bucket_name}.")
+#     return
+#
+#
+# def download_file(bucket_name, file_name, destination_path):
+#
+#     bucket = getStorageBucket.get_bucket(bucket_name)
+#     blob = bucket.blob(file_name)
+#
+#     # download del file
+#     file_to_download = blob.download_to_filename(destination_path)
+#
+#     log.info(f"File {file_name} downloaded from bucket {bucket_name} to {destination_path}.")
+#     return
+#
+#
+# def delete_file(bucket_name, file_name):
+#
+#     bucket = getStorageBucket.get_bucket(bucket_name)
+#     blob = bucket.blob(file_name)
+#
+#     file_to_delete = blob.delete()
+#
+#     log.info(f"File {file_name} deleted from bucket {bucket_name}.")
+#     return
 
 
 # upload_file("asset_storage_bucket", "message_newest.json", "config\message.json")

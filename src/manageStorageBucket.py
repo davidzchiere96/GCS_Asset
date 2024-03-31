@@ -2,7 +2,7 @@
 
 import logger
 from cloudStorageClient import StorageClient
-from getStorageBucket import get_bucket
+import getStorageBucket
 
 
 log = logger.logger()
@@ -16,7 +16,7 @@ class Bucket:
         log.info(f"New bucket {bucket_name} created!")
 
     def delete_bucket(self, bucket_name):
-        bucket = get_bucket(bucket_name)
+        bucket = getStorageBucket.get_bucket(bucket_name)
         bucket.delete(force=True)
         log.info(f"Bucket {bucket_name} deleted!")
 
