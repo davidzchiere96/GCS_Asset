@@ -19,7 +19,7 @@ class StorageClient:
         try:
             # self.client = storage.Client.from_service_account_json(json_credentials_path=self.key_path)
             self.client = storage.Client()
-            # log.info("Client connected!")
+            log.info("Client connected!")
         except Exception as e:
             log.error(f"Error connecting to storage client: {e}")
 
