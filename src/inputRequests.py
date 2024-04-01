@@ -1,6 +1,5 @@
 import logger
 
-
 log = logger.logger()
 
 def input_operation_request_domain():

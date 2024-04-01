@@ -2,6 +2,7 @@
 
 import logger
 from manageStorageBucket import Bucket
+from getStorageObject import BucketGetter, FileGetter
 
 # Per implementare procedura di graceful shutdown
 # import os
@@ -10,74 +11,45 @@ from manageStorageBucket import Bucket
 
 
 log = logger.logger()
-# client = cloudStorageClient.storage_client()
 
 class File:
     def __init__(self):
-         self.__bucket = Bucket()
-         # self.storage_client = StorageClient().get_client()
+         self.__file = FileGetter()
+         self.__bucket = BucketGetter()
 
     def upload_file(self, bucket_name, file_name, local_file_path):
         bucket = self.__bucket.get_bucket(bucket_name)
-        # istanzia la creazione dell'oggetto blob
-        blob = bucket.blob(file_name)
 
-        # upload del file
+        blob = bucket.blob(file_name)
         file_to_upload = blob.upload_from_filename(local_file_path)
-        log.info(f"File {file_name} uploaded in bucket {bucket_name}.")
+        log.info(f"File '{file_name}' uploaded in bucket '{bucket_name}'.")
         return
+
 
     def download_file(self, bucket_name, file_name, destination_path):
         bucket = self.__bucket.get_bucket(bucket_name)
-        blob = bucket.blob(file_name)
 
-        # download del file
+        blob = bucket.blob(file_name)
         file_to_download = blob.download_to_filename(destination_path)
-        log.info(f"File {file_name} downloaded from bucket {bucket_name} to {destination_path}.")
+        log.info(f"File '{file_name}' downloaded from bucket '{bucket_name}' to '{destination_path}'.")
         return
 
     def delete_file(self, bucket_name, file_name):
         bucket = self.__bucket.get_bucket(bucket_name)
+
         blob = bucket.blob(file_name)
 
         file_to_delete = blob.delete()
-        log.info(f"File {file_name} deleted from bucket {bucket_name}.")
+        log.info(f"File '{file_name}' deleted from bucket '{bucket_name}'.")
         return
 
-# def upload_file(bucket_name, file_name, local_file_path):
-#
-#     bucket = getStorageBucket.get_bucket(bucket_name)
-#     # istanzia la creazione dell'oggetto blob
-#     blob = bucket.blob(file_name)
-#
-#     # upload del file
-#     file_to_upload = blob.upload_from_filename(local_file_path)
-#
-#     log.info(f"File {file_name} uploaded in bucket {bucket_name}.")
-#     return
-#
-#
-# def download_file(bucket_name, file_name, destination_path):
-#
-#     bucket = getStorageBucket.get_bucket(bucket_name)
-#     blob = bucket.blob(file_name)
-#
-#     # download del file
-#     file_to_download = blob.download_to_filename(destination_path)
-#
-#     log.info(f"File {file_name} downloaded from bucket {bucket_name} to {destination_path}.")
-#     return
-#
-#
-# def delete_file(bucket_name, file_name):
-#
-#     bucket = getStorageBucket.get_bucket(bucket_name)
-#     blob = bucket.blob(file_name)
-#
-#     file_to_delete = blob.delete()
-#
-#     log.info(f"File {file_name} deleted from bucket {bucket_name}.")
-#     return
+    # MUOVI UN FILE DA UN BUCKET AD UN ALTRO
+    # CREA UNA DIRECTORY NEL BUCKET
+    # ELIMINA UNA DIRECTORY NEL BUCKET
+
+# file = File()
+# file.download_file("asset_storage_bucket", "april_fool.json", "config\message_april_fool.json")
+# file.delete_file("asset_storage_bucket", "april_fool.json")
 
 
 # File().delete_file("asset_storage_bucket", "message_new_incapsulated.json")
@@ -86,44 +58,6 @@ class File:
 
 
 
-#    file_name = "asset_storage_file_new"
-#    bucket = client.get_bucket(bucket_name)
-#    bucket.delete(force=True)
-
-#    logging.info("Bucket deleted!")
-#    return bucket
-
-
-
-# Sostituisci "il_tuo_bucket" con il nome del tuo bucket
-#bucket_name = "asset_storage_bucket"
-#logging.info("ok bucket name")
-#print("ok")
-#bucket = client_storage.get_bucket(bucket_name)
-
-# Esempio di upload di un file
-#blob = bucket.blob("message_new.json")
-#blob.upload_from_filename(r"C:\Users\ECHIERDF9\PycharmProjects\GCS_Asset_pythonProject\gcs_asset\message.json")
-
-
-
-
-# Sostituisci "il_tuo_bucket" con il nome del tuo bucket
-# bucket_name = "asset_storage_bucket"
-# logging.info("ok bucket name")
-# print("ok")
-# bucket = client.get_bucket(bucket_name)
-
-# print(client, bucket)
-
-# Esempio di upload di un file
-# blob = bucket.blob("message_new.json")
-# blob.upload_from_filename(r"C:\Users\ECHIERDF9\PycharmProjects\GCS_Asset_pythonProject\gcs_asset\message.json")
-
-
-
-
-#
 # cs = storage.Client()
 #
 #

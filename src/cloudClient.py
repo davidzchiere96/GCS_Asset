@@ -1,25 +1,29 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
 # Client connector
 # Per i log utilizzare nuove librerie assettizzate
-
 import logger
 from google.cloud import storage
 import os
+from abc import ABC, abstractmethod
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"config\smooth-tesla-413121-a1ac05929582.json"
 log = logger.logger()
 
-class StorageClient:
-    def __init__(self): # , service_account_path=None):
-        # self.key_path = service_account_path
+class CloudClient(ABC):
+    @abstractmethod
+    def get_client(self):
+        pass
+
+class CloudStorageClient(CloudClient):
+    def __init__(self):
         self.client = None
 
     def connect(self):
         try:
-            # self.client = storage.Client.from_service_account_json(json_credentials_path=self.key_path)
             self.client = storage.Client()
-            log.info("Client connected!")
+            log.info("GCS Client connected!")
+
         except Exception as e:
             log.error(f"Error connecting to storage client: {e}")
 
