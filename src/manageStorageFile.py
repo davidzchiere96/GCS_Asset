@@ -1,8 +1,7 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
 
 import logger
-from cloudStorageClient import StorageClient
-import getStorageBucket
+from manageStorageBucket import Bucket
 
 # Per implementare procedura di graceful shutdown
 # import os
@@ -14,11 +13,12 @@ log = logger.logger()
 # client = cloudStorageClient.storage_client()
 
 class File:
-    # def __init__(self):
-    #     self.storage_client = StorageClient().get_client()
+    def __init__(self):
+         self.__bucket = Bucket()
+         # self.storage_client = StorageClient().get_client()
 
     def upload_file(self, bucket_name, file_name, local_file_path):
-        bucket = getStorageBucket.get_bucket(bucket_name)
+        bucket = self.__bucket.get_bucket(bucket_name)
         # istanzia la creazione dell'oggetto blob
         blob = bucket.blob(file_name)
 
@@ -28,7 +28,7 @@ class File:
         return
 
     def download_file(self, bucket_name, file_name, destination_path):
-        bucket = getStorageBucket.get_bucket(bucket_name)
+        bucket = self.__bucket.get_bucket(bucket_name)
         blob = bucket.blob(file_name)
 
         # download del file
@@ -37,7 +37,7 @@ class File:
         return
 
     def delete_file(self, bucket_name, file_name):
-        bucket = getStorageBucket.get_bucket(bucket_name)
+        bucket = self.__bucket.get_bucket(bucket_name)
         blob = bucket.blob(file_name)
 
         file_to_delete = blob.delete()
@@ -80,7 +80,7 @@ class File:
 #     return
 
 
-# upload_file("asset_storage_bucket", "message_newest.json", "config\message.json")
+# File().delete_file("asset_storage_bucket", "message_new_incapsulated.json")
 # download_file("asset_storage_bucket", "message_newest.json", "config\message_newest.json")
 # delete_file("asset_storage_bucket", "message_newest.json")
 

@@ -9,16 +9,22 @@ log = logger.logger()
 
 class Bucket:
     def __init__(self):
-        self.storage_client = StorageClient().get_client()
+        self.__storage_client = StorageClient().get_client()
+
+    def get_bucket(self, bucket_name):
+        bucket = self.__storage_client.get_bucket(bucket_name)
+        log.info(f"Bucket {bucket_name} returned!")
+        return bucket
 
     def create_bucket(self, bucket_name):
-        new_bucket = self.storage_client.create_bucket(bucket_name)
+        new_bucket = self.__storage_client.create_bucket(bucket_name)
         log.info(f"New bucket {bucket_name} created!")
 
     def delete_bucket(self, bucket_name):
-        bucket = getStorageBucket.get_bucket(bucket_name)
+        bucket = self.get_bucket(bucket_name)
         bucket.delete(force=True)
         log.info(f"Bucket {bucket_name} deleted!")
+
 
 
 #    bucket_manager = Bucket()
