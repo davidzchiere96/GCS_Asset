@@ -29,6 +29,13 @@ class Bucket:
         for file in list_of_file:
             print(file.name)
 
+    def update_bucket_storage_class(self, bucket_name, storage_class):
+        bucket = self.__bucket_getter.get_bucket(bucket_name)
+
+        bucket.update_storage_class(storage_class)  # es. "NEARLINE"
+        log.info(f"Storage class of the bucket '{bucket_name}' updated to '{storage_class}'")
+
+
 # buc = Bucket()
 # buc.list_files("asset_storage_bucket")
 

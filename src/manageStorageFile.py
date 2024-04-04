@@ -71,6 +71,15 @@ class File:
         except FileNotFoundError:
             log.info("File not found.")
 
+    def update_file_storage_class(self, bucket_name, file_name, storage_class):
+        bucket = self.__bucket.get_bucket(bucket_name)
+        blob = bucket.blob(file_name)
+
+        blob.update_storage_class(storage_class)  # es. "NEARLINE"
+        log.info(f"Storage class of the object '{file_name}' updated to '{storage_class}'")
+
+
+
 # file = File()
 # file.write_to_file("asset_storage_bucket", "message.json", "    ciao")
 
