@@ -43,6 +43,37 @@ class File:
         log.info(f"File '{file_name}' deleted from bucket '{bucket_name}'.")
         return
 
+    def write_to_file(self, bucket_name, file_name, message):
+        try:
+            """Write and read a blob from GCS using file-like IO"""
+            bucket = self.__bucket.get_bucket(bucket_name)
+
+            blob = bucket.blob(file_name)
+
+            with blob.open("w") as f:
+                f.write(message)
+                log.info(f"Message written in file '{file_name}'")
+
+        except FileNotFoundError:
+            log.info("File not found.")
+
+    def read_from_file(self, bucket_name, file_name):
+        try:
+            """Write and read a blob from GCS using file-like IO"""
+            bucket = self.__bucket.get_bucket(bucket_name)
+
+            blob = bucket.blob(file_name)
+
+            with blob.open("r") as f:
+                log.info(f"Read file '{file_name}'")
+                print(f.read())
+
+        except FileNotFoundError:
+            log.info("File not found.")
+
+# file = File()
+# file.write_to_file("asset_storage_bucket", "message.json", "    ciao")
+
     # MUOVI UN FILE DA UN BUCKET AD UN ALTRO
     # CREA UNA DIRECTORY NEL BUCKET
     # ELIMINA UNA DIRECTORY NEL BUCKET

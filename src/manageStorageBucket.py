@@ -12,13 +12,6 @@ class Bucket:
         self.__storage_client = CloudStorageClient().get_client()
         self.__bucket_getter = BucketGetter()
 
-    """
-    def get_bucket(self, bucket_name):
-        bucket = self.__bucket_getter.get_bucket(bucket_name)
-        log.info(f"Bucket '{bucket_name}' returned!")
-        return bucket
-    """
-
     def create_bucket(self, bucket_name):
         new_bucket = self.__storage_client.create_bucket(bucket_name)
         log.info(f"New bucket '{bucket_name}' created!")
@@ -28,6 +21,16 @@ class Bucket:
         bucket.delete(force=True)
         log.info(f"Bucket '{bucket_name}' deleted!")
 
+    def list_files(self, bucket_name):
+        """Lists all the blobs in the bucket."""
+        list_of_file = self.__storage_client.list_blobs(bucket_name)
+        log.info(f"Listing files in bucket '{bucket_name}'")
+
+        for file in list_of_file:
+            print(file.name)
+
+# buc = Bucket()
+# buc.list_files("asset_storage_bucket")
 
 # bucket_manager = Bucket()
 # bucket_manager.create_bucket("asset_storage_bucket_april")
