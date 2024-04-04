@@ -25,7 +25,6 @@ class File:
         log.info(f"File '{file_name}' uploaded in bucket '{bucket_name}'.")
         return
 
-
     def download_file(self, bucket_name, file_name, destination_path):
         bucket = self.__bucket.get_bucket(bucket_name)
 
@@ -77,9 +76,16 @@ class File:
 
         blob.update_storage_class(storage_class)  # es. "NEARLINE"
         log.info(f"Storage class of the object '{file_name}' updated to '{storage_class}'")
+        return
 
+    def get_file_size(self, bucket_name, file_name):
+        return
 
+    def upload_big_size_file(self, bucket_name, file_name, size):
+        return
 
+    def download_big_size_file(self, bucket_name, file_name, size):
+        return
 # file = File()
 # file.write_to_file("asset_storage_bucket", "message.json", "    ciao")
 

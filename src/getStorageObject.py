@@ -22,6 +22,7 @@ class FileGetter:
         blob = bucket.blob(file_name)
         log.info(f"File '{file_name}' from buket '{bucket_name}' returned!")
 
+
 # bucket = BucketGetter()
 # bucket.get_bucket("asset_storage_bucket")
 
