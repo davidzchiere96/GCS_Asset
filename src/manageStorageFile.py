@@ -17,20 +17,35 @@ class File:
          self.__file = FileGetter()
          self.__bucket = BucketGetter()
 
+
     def upload_file(self, bucket_name, file_name, local_file_path):
         bucket = self.__bucket.get_bucket(bucket_name)
-
         blob = bucket.blob(file_name)
-        file_to_upload = blob.upload_from_filename(local_file_path)
-        log.info(f"File '{file_name}' uploaded in bucket '{bucket_name}'.")
+        file_size = self.__file.get_local_file_size(local_file_path)
+
+        if file_size > 1:
+            # PROCEDURA DI GRACEFUL SHUTDOWN E UPLOAD STREAMING
+            return
+
+        else:
+            file_to_upload = blob.upload_from_filename(local_file_path)
+            log.info(f"File '{file_name}' uploaded in bucket '{bucket_name}'.")
+
         return
 
     def download_file(self, bucket_name, file_name, destination_path):
         bucket = self.__bucket.get_bucket(bucket_name)
-
         blob = bucket.blob(file_name)
-        file_to_download = blob.download_to_filename(destination_path)
-        log.info(f"File '{file_name}' downloaded from bucket '{bucket_name}' to '{destination_path}'.")
+        file_size = self.__file.get_file_size(bucket_name, file_name)
+
+        if file_size > 1:
+            # PROCEDURA DI GRACEFUL SHUTDOWN E DOWNLOAD STREAMING
+            return
+
+        else:
+            file_to_download = blob.download_to_filename(destination_path)
+            log.info(f"File '{file_name}' downloaded from bucket '{bucket_name}' to '{destination_path}'.")
+
         return
 
     def delete_file(self, bucket_name, file_name):
@@ -78,14 +93,9 @@ class File:
         log.info(f"Storage class of the object '{file_name}' updated to '{storage_class}'")
         return
 
-    def get_file_size(self, bucket_name, file_name):
-        return
 
-    def upload_big_size_file(self, bucket_name, file_name, size):
-        return
 
-    def download_big_size_file(self, bucket_name, file_name, size):
-        return
+
 # file = File()
 # file.write_to_file("asset_storage_bucket", "message.json", "    ciao")
 
