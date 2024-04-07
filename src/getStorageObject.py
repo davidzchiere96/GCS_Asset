@@ -28,10 +28,10 @@ class FileGetter:
         bucket = self.__bucket.get_bucket(bucket_name)
         blob = bucket.blob(file_name)
 
-        size_in_bytes = blob.size
-        size_in_kb = size_in_bytes / 1024
-        size_in_mb = size_in_kb / 1024
-        size_in_gb = size_in_mb / 1024
+        size_in_bytes = float(blob.size)
+        size_in_kb = size_in_bytes/1024
+        size_in_mb = size_in_kb/1024
+        size_in_gb = size_in_mb/1024
 
         log.info(f"File '{file_name}' size is: '{size_in_gb}'GB")
         return size_in_gb
@@ -41,17 +41,19 @@ class FileGetter:
         # Check if the file exists
         if os.path.exists(file_path):
             # Get the size of the file
-            size_in_bytes = os.path.getsize(file_path)
-            size_in_kb = size_in_bytes / 1024
-            size_in_mb = size_in_kb / 1024
-            size_in_gb = size_in_mb / 1024
+            size_in_bytes = float(os.path.getsize(file_path))
+            size_in_kb = size_in_bytes/1024
+            size_in_mb = size_in_kb/1024
+            size_in_gb = size_in_mb/1024
 
             log.info(f"File '{file_path}' size is: '{size_in_gb}'GB")
             return size_in_gb
         else:
             return None
 
-
+# file = FileGetter()
+# file.get_file_size("asset_storage_bucket", "message.json")
+# file.get_local_file_size("config/message.json")
 
 # bucket = BucketGetter()
 # bucket.get_bucket("asset_storage_bucket")

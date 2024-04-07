@@ -23,13 +23,19 @@ class File:
         blob = bucket.blob(file_name)
         file_size = self.__file.get_local_file_size(local_file_path)
 
-        if file_size > 1:
-            # PROCEDURA DI GRACEFUL SHUTDOWN E UPLOAD STREAMING
+        if file_size > 1.0:
+            # MANCA PROCEDURA DI GRACEFUL SHUTDOWN
+            """Upload a large file to GCS using streaming"""
+            with open(local_file_path, "rb") as f:
+                blob.upload_from_file(f)
+
+            log.info(f"streaming...")
+            log.info(f"File '{local_file_path}' uploaded to '{bucket_name}/{file_name}'")
             return
 
         else:
             file_to_upload = blob.upload_from_filename(local_file_path)
-            log.info(f"File '{file_name}' uploaded in bucket '{bucket_name}'.")
+            log.info(f"File '{local_file_path}' uploaded to '{bucket_name}/{file_name}'")
 
         return
 
@@ -39,7 +45,13 @@ class File:
         file_size = self.__file.get_file_size(bucket_name, file_name)
 
         if file_size > 1:
-            # PROCEDURA DI GRACEFUL SHUTDOWN E DOWNLOAD STREAMING
+            # MANCA PROCEDURA DI GRACEFUL SHUTDOWN
+            """Download a large file from GCS using streaming"""
+            with open(destination_path, "wb") as f:
+                blob.download_to_file(f)
+
+            log.info(f"streaming...")
+            log.info(f"File '{bucket_name}/{file_name}' downloaded to '{destination_path}'")
             return
 
         else:
@@ -93,11 +105,9 @@ class File:
         log.info(f"Storage class of the object '{file_name}' updated to '{storage_class}'")
         return
 
-
-
-
 # file = File()
-# file.write_to_file("asset_storage_bucket", "message.json", "    ciao")
+# file.upload_file("asset_storage_bucket", "message_streaming.json", "config\message.json")
+# file.download_file("asset_storage_bucket", "message_streaming.json", "config\message_streaming.json")
 
     # MUOVI UN FILE DA UN BUCKET AD UN ALTRO
     # CREA UNA DIRECTORY NEL BUCKET
@@ -112,20 +122,3 @@ class File:
 # download_file("asset_storage_bucket", "message_newest.json", "config\message_newest.json")
 # delete_file("asset_storage_bucket", "message_newest.json")
 
-
-
-# cs = storage.Client()
-#
-#
-# def get_content(remote_filename):
-#     """Download remote file"""
-#     paths = remote_filename.split('/')
-#     bucket_name = paths[0]
-#     filename = '/'.join(paths[1:])
-#     data = cs.get_bucket(bucket_name).blob(filename).download_as_string()
-#     return data.decode('utf-8')
-#
-#
-# def get_bucket_from_filename(filename):
-#     """Get configurations"""
-#     return filename.split('/')[0]
