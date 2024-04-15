@@ -1,6 +1,5 @@
 import os
 import logger
-# from cloudClient import CloudStorageClient
 
 
 log = logger.logger()
