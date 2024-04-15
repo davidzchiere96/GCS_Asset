@@ -33,12 +33,6 @@ class CloudStorageClient(CloudClient):
         return self.client
 
 
-# Esempio di utilizzo della classe StorageClient
-# if __name__ == "__main__":
-#    service_account_path = r"config\smooth-tesla-413121-a1ac05929582.json"
-#    storage_client = StorageClient(service_account_path)
-#    client = storage_client.get_client()
-
 
 
 

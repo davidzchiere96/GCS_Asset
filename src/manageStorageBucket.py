@@ -8,9 +8,10 @@ from getStorageObject import BucketGetter
 log = logger.logger()
 
 class Bucket:
-    def __init__(self):
+    def __init__(self, bucket_name):
         self.__storage_client = CloudStorageClient().get_client()
         self.__bucket_getter = BucketGetter()
+        self.bucket_name = bucket_name
 
     def create_bucket(self, bucket_name):
         new_bucket = self.__storage_client.create_bucket(bucket_name)
@@ -20,14 +21,6 @@ class Bucket:
         bucket = self.__bucket_getter.get_bucket(bucket_name)
         bucket.delete(force=True)
         log.info(f"Bucket '{bucket_name}' deleted!")
-
-    def list_files(self, bucket_name):
-        """Lists all the blobs in the bucket."""
-        list_of_file = self.__storage_client.list_blobs(bucket_name)
-        log.info(f"Listing files in bucket '{bucket_name}'")
-
-        for file in list_of_file:
-            print(file.name)
 
     def update_bucket_storage_class(self, bucket_name, storage_class):
         bucket = self.__bucket_getter.get_bucket(bucket_name)
