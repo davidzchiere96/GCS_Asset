@@ -124,6 +124,26 @@ def manage_file():
         file = File(bucket_name, file_name)
         file.delete_file()
 
+    elif operation_required == 4:
+        bucket_name = inputRequests.input_destination_bucket_name()
+        file_name = inputRequests.input_destination_file_name()
+        message = inputRequests.input_message()
+        file = File(bucket_name, file_name)
+        file.write_to_file(message)
+
+    elif operation_required == 5:
+        bucket_name = inputRequests.input_destination_bucket_name()
+        file_name = inputRequests.input_destination_file_name()
+        file = File(bucket_name, file_name)
+        file.read_from_file()
+
+    elif operation_required == 6:
+        storage_class = inputRequests.input_storage_class()
+        bucket_name = inputRequests.input_destination_bucket_name()
+        file_name = inputRequests.input_destination_file_name()
+        file = File(bucket_name, file_name)
+        file.update_file_storage_class(storage_class)
+
     else:
         log.info("No operation found!")
         return

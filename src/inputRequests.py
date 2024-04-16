@@ -42,9 +42,12 @@ def input_bucket_operation():
 def input_file_operation():
     operation_request = int(input(
         "Finally select the operation you want to execute: \n"
-        " 1 - UPLOAD A FILE\n "
-        "2 - DOWNLOAD A FILE\n "
-        "3 - DELETE A FILE\n "
+        " 1 - UPLOAD FILE\n "
+        "2 - DOWNLOAD FILE\n "
+        "3 - DELETE FILE\n "
+        "4 - WRITE TO FILE\n "
+        "5 - READ FROM FILE\n "
+        "6 - UPDATE FILE STORAGE CLASS\n "
         "\n "
     ))
     return operation_request
@@ -64,3 +67,6 @@ def input_storage_class():
 
 def input_file_prefix():
     return str(input("Input file prefix: "))
+
+def input_message():
+    return str(input("Input message: "))
