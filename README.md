@@ -1,6 +1,5 @@
-# _GCS Asset_
+# _Google Cloud Storage Asset Libraries_
 
-Google Cloud Storage API libraries set-up
 
   </a>
   <a href="https://www.python.org/downloads/release/python-311">
@@ -9,12 +8,15 @@ Google Cloud Storage API libraries set-up
 
 ####
 
-GCS Doc: https://cloud.google.com/storage/docs?hl=it
+Google Cloud Storage Doc: https://cloud.google.com/storage/docs?hl=it
 
 GCS Python Client Doc: https://cloud.google.com/python/docs/reference/storage/latest
 
-###
-###
+####
+
+### Introduction
+Google Cloud Storage API Asset Libraries
+
 
 ### Main Architecture
 

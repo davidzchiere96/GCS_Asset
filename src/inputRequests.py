@@ -63,7 +63,7 @@ def input_source_file_path():
     return str(input("Input the source file path: "))
 
 def input_storage_class():
-    return str(input("Input the new bucket storage class: "))
+    return str(input("Input the new bucket storage class [Standard, Nearline, Coldline]: "))
 
 def input_file_prefix():
     return str(input("Input file prefix: "))
