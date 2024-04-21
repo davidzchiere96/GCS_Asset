@@ -12,9 +12,12 @@ class BucketGetter:
         self.bucket_name = bucket_name
 
     def get_bucket(self):
-        bucket = self.__storage_client.get_bucket(self.bucket_name)
-        log.info(f"Bucket '{self.bucket_name}' returned!")
-        return bucket
+        try:
+            bucket = self.__storage_client.get_bucket(self.bucket_name)
+            log.info(f"Bucket '{self.bucket_name}' returned!")
+            return bucket
+        except Exception as e:
+            log.error(f"Bucket '{self.bucket_name}' not exists.")
 
 
 class FileGetter:
@@ -24,10 +27,13 @@ class FileGetter:
         self.bucket_name = bucket_name
 
     def get_file(self):
-        bucket = self.__bucket.get_bucket()
-        blob = bucket.blob(self.file_name)
-        log.info(f"File '{self.file_name}' from buket '{self.bucket_name}' returned!")
-        return
+        try:
+            bucket = self.__bucket.get_bucket()
+            blob = bucket.blob(self.file_name)
+            log.info(f"File '{self.file_name}' from buket '{self.bucket_name}' returned!")
+            return
+        except Exception as e:
+            log.error(f"File '{self.file_name}' not exists.")
 
     # tirare fuori oppure chiamare la size dirattemente nel managestoragefile
     def get_file_size(self):
