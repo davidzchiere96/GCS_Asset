@@ -7,7 +7,7 @@ import os
 from abc import ABC, abstractmethod
 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"config\smooth-tesla-413121-a1ac05929582.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\sa\smooth-tesla-413121-a1ac05929582.json"
 log = logger.logger()
 
 class CloudClient(ABC):

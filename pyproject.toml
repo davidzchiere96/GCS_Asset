@@ -10,6 +10,7 @@ packages = [{include = "gcs_asset"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 google = "^3.0.0"
+coverage = "^7.4.4"
 
 
 [build-system]
