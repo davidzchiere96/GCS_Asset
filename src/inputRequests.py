@@ -1,10 +1,11 @@
-import logger
+from logger import Log
 
-log = logger.logger()
+log_instance = Log()
+log = log_instance.logger()
 
 def input_domain():
     domain_request = int(input(
-                            "Hello! Please, select the action you want to execute: \n"
+                            "Hello! Please, select the area you want to dive in: \n"
                             " 1 - GET some storage infos\n "
                             "2 - MANAGE storage objects\n "
                             "\n "
@@ -14,8 +15,8 @@ def input_domain():
 def input_to_get_info():
     info_request = int(input(
                             "Now select the info you want to retrieve: \n"
-                            " 1 - File size\n "
-                            "2 - List of files within a bucket\n "
+                            " 1 - List all the objects within a bucket\n "
+                            "2 - Object size\n "
                             "\n "
     ))
     return info_request

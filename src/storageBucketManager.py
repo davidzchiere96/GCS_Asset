@@ -1,12 +1,13 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
 
-import logger
+from logger import Log
 from cloudClient import CloudStorageClient
-from storageObjectGetter import BucketGetter
+from storageGetter import BucketGetter
 import inputRequests
 
 
-log = logger.logger()
+log_instance = Log()
+log = log_instance.logger()
 
 class Bucket:
     def __init__(self, bucket_name):
@@ -29,6 +30,8 @@ class Bucket:
         bucket.update_storage_class(storage_class)  # es. "NEARLINE"
         log.info(f"Storage class of the bucket '{self.bucket_name}' updated to '{storage_class}'")
 
+    # TODO: def lifecycle_management
+
 
 def manage_bucket():
     operation_required = inputRequests.input_bucket_operation()
@@ -50,7 +53,7 @@ def manage_bucket():
         bucket.update_bucket_storage_class(storage_class)
 
     else:
-        log.info("No operation found!")
+        log.warning("No operation found!")
         return
 
 

@@ -1,14 +1,13 @@
-# https://googleapis.github.io/google-cloud-python/latest/storage/index.html
-# Client connector
-# Per i log utilizzare nuove librerie assettizzate
-import logger
+from logger import Log
 from google.cloud import storage
 import os
 from abc import ABC, abstractmethod
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\sa\smooth-tesla-413121-a1ac05929582.json"
-log = logger.logger()
+
+log_instance = Log()
+log = log_instance.logger()
 
 class CloudClient(ABC):
     @abstractmethod

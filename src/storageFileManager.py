@@ -1,15 +1,16 @@
 # https://googleapis.github.io/google-cloud-python/latest/storage/index.html
 
-import logger
+from logger import Log
 from storageBucketManager import Bucket
-from storageObjectGetter import BucketGetter, FileGetter
-from localObjectGetter import LocalFileGetter
+from storageGetter import BucketGetter, FileGetter
+from localGetter import LocalFileGetter
 import inputRequests
 
 # Per implementare procedura di graceful shutdown
 
 
-log = logger.logger()
+log_instance = Log()
+log = log_instance.logger()
 
 class File:
     def __init__(self, bucket_name, file_name, local_file_path=None):
@@ -100,6 +101,9 @@ class File:
         log.info(f"Storage class of the object '{self.file_name}' updated to '{storage_class}'")
         return
 
+    # TODO: def lifecycle
+    # TODO: def versioning
+
 
 def manage_file():
     operation_required = inputRequests.input_file_operation()
@@ -145,7 +149,7 @@ def manage_file():
         file.update_file_storage_class(storage_class)
 
     else:
-        log.info("No operation found!")
+        log.warning("No operation found!")
         return
 
 

@@ -1,29 +1,30 @@
 from storageBucketManager import Bucket, manage_bucket
 from storageFileManager import File, manage_file
-from storageObjectGetter import FileGetter, BucketGetter
-import logger
+from storageGetter import FileGetter, BucketGetter
+from logger import Log
 import inputRequests
 
 
-log = logger.logger()
+log_instance = Log()
+log = log_instance.logger()
 
 def get_infos(info_required):
 
     # Get file size
     if info_required == 1:
         bucket_name = inputRequests.input_destination_bucket_name()
-        file_name = inputRequests.input_destination_file_name()
-        # file_path = inputRequests.input_source_file_path()
-        FileGetter(bucket_name, file_name).get_file_size()
+        file_prefix = inputRequests.input_file_prefix()
+        FileGetter(bucket_name).list_files(file_prefix)
 
     # List of files within a bucket
     elif info_required == 2:
         bucket_name = inputRequests.input_destination_bucket_name()
-        file_prefix = inputRequests.input_file_prefix()
-        FileGetter(bucket_name).list_files(file_prefix)
+        file_name = inputRequests.input_destination_file_name()
+        # file_path = inputRequests.input_source_file_path()
+        FileGetter(bucket_name, file_name).get_file_size()
 
     else:
-        log.info("No info retrieved!")
+        log.warning("No info retrieved!")
         return
 
 def manage_objects(operation_required):
@@ -37,7 +38,7 @@ def manage_objects(operation_required):
         manage_file()
 
     else:
-        log.info("No object found!")
+        log.warning("No object found!")
         return
 
 
@@ -51,7 +52,7 @@ def main():
         operation_required = inputRequests.input_operation()
         manage_objects(operation_required)
     else:
-        log.info("No action domain found!")
+        log.warning("No request domain found!")
         return
 
 

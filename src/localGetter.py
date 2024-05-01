@@ -1,8 +1,9 @@
 import os
-import logger
+from logger import Log
 
 
-log = logger.logger()
+log_instance = Log()
+log = log_instance.logger()
 
 class LocalFileGetter:
     def __init__(self, local_file_path):

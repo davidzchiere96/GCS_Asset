@@ -1,10 +1,11 @@
 import os
-import logger
+from logger import Log
 from cloudClient import CloudStorageClient
+import inputRequests
 
 
-log = logger.logger()
-
+log_instance = Log()
+log = log_instance.logger()
 
 class BucketGetter:
     def __init__(self, bucket_name):
@@ -18,6 +19,25 @@ class BucketGetter:
             return bucket
         except Exception as e:
             log.error(f"Bucket '{self.bucket_name}' not exists.")
+
+    def list_files(self, prefix=None):
+        """Lists all the blobs in the bucket."""
+        bucket = self.get_bucket()
+        list_of_files = bucket.list_blobs(prefix=prefix, versions=False)
+        log.info(f"Listing files in bucket '{self.bucket_name}'")
+
+        metadata = []
+        num_files = 0
+        for file in list_of_files:
+            metadata.append({
+                'name': file.name,
+                'size_in_bytes': file.size,
+                'created_time': file.time_created.strftime("%Y-%m-%dT%H:%M:%S")
+            })
+            num_files += 1
+
+        log.info(f"There are {num_files} files in bucket '{self.bucket_name}': {metadata}")
+        return metadata
 
 
 class FileGetter:
@@ -51,22 +71,3 @@ class FileGetter:
         else:
             log.error(f"Failed to retrieve file size for '{self.file_name}'. Blob size is None.")
             return None
-
-    def list_files(self, prefix=None):
-        """Lists all the blobs in the bucket."""
-        bucket = self.__bucket.get_bucket()
-        list_of_files = bucket.list_blobs(prefix=prefix, versions=False)
-        log.info(f"Listing files in bucket '{self.bucket_name}'")
-
-        metadata = []
-        num_files = 0
-        for file in list_of_files:
-            metadata.append({
-                'name': file.name,
-                'size_in_bytes': file.size,
-                'created_time': file.time_created.strftime("%Y-%m-%dT%H:%M:%S")
-            })
-            num_files += 1
-
-        log.info(f"There are {num_files} files in bucket '{self.bucket_name}': {metadata}")
-        return metadata
