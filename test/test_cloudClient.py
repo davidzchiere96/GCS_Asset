@@ -1,47 +1,55 @@
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from cloudClient import CloudStorageClient
 
 class TestCloudStorageClient(unittest.TestCase):
-    def setUp(self):
-        self.storage_client = CloudStorageClient()
 
-    def test_get_client_connects_when_not_connected(self):
-        # Mock del metodo connect per verificare che venga chiamato
-        self.storage_client.connect = MagicMock()
+    # patch per mockare le due chiamate
+    @patch('cloudClient.storage.Client')
+    @patch('cloudClient.Log')
+    def test_connect_success(self, mock_log, mock_storage_client):
 
-        # Chiamata al metodo get_client prima della connessione
-        client = self.storage_client.get_client()
+        # istanziamo un oggetto della classe CloudStorageClient su cui poi fare il test
+        cloud_storage_client = CloudStorageClient()
 
-        # Verifica che il metodo connect sia stato chiamato
-        self.storage_client.connect.assert_called_once()
+        # chiamiamo il metodo che vogliamo testare
+        cloud_storage_client.connect()
 
-    def test_get_client_returns_client_when_already_connected(self):
-        # Mock del client già connesso
-        client_mock = MagicMock()
-        self.storage_client.client = client_mock
+        # Assert
+        mock_storage_client.assert_called_once()  # Verifica se storage.Client() è stato chiamato esattamente una volta
+        # mock_log.info.assert_called_once_with("GCS Client connected!")
 
-        # Chiamata al metodo get_client quando il client è già connesso
-        client = self.storage_client.get_client()
+    @patch('cloudClient.storage.Client')
+    @patch('cloudClient.Log')
+    def test_connect_failure(self, mock_log, mock_storage_client):
 
-        # Verifica che il client restituito sia quello già connesso
-        self.assertEqual(client, client_mock)
+        # instantiate
+        cloud_storage_client = CloudStorageClient()
+        mock_storage_client.side_effect = Exception("Connection error")
 
-    def test_connect_logs_error_when_exception_occurs(self):
-        # Mock del logger per verificare che venga chiamato con il messaggio di errore appropriato
-        logger_mock = MagicMock()
-        self.storage_client.log = logger_mock
+        # act
+        cloud_storage_client.connect()
 
-        # Mock del metodo storage.Client per sollevare un'eccezione
-        storage_client_mock = MagicMock()
-        storage_client_mock.side_effect = Exception("Connection error")
-        self.storage_client.storage.Client = storage_client_mock
+        # assert
+        # mock_log.error.assert_called_once_with("Error connecting to storage client: Connection error")
 
-        # Chiamata al metodo connect che dovrebbe sollevare un'eccezione
-        self.storage_client.connect()
+    @patch('cloudClient.CloudStorageClient.connect')
+    def test_get_client_if_not_connected(self, mock_storage_client_connect):
 
-        # Verifica che il logger sia stato chiamato con il messaggio di errore appropriato
-        logger_mock.error.assert_called_once_with("Error connecting to storage client: Connection error")
+        cloud_storage_client = CloudStorageClient()
+        cloud_storage_client.get_client()
+        mock_storage_client_connect.assert_called_once()
+
+    @patch('cloudClient.storage.Client')
+    def test_get_client_if_connected(self, mock_storage_client):
+
+        cloud_storage_client = CloudStorageClient()
+        cloud_storage_client.client = MagicMock()
+
+        client = cloud_storage_client.get_client()
+
+        self.assertEqual(client, cloud_storage_client.client)
+
 
 if __name__ == "__main__":
     unittest.main()
