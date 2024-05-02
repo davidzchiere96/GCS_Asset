@@ -44,7 +44,7 @@ class TestCloudStorageClient(unittest.TestCase):
     def test_get_client_if_connected(self, mock_storage_client):
 
         cloud_storage_client = CloudStorageClient()
-        cloud_storage_client.client = MagicMock()
+        cloud_storage_client.client = mock_storage_client
 
         client = cloud_storage_client.get_client()
 
