@@ -1,5 +1,3 @@
-# https://googleapis.github.io/google-cloud-python/latest/storage/index.html
-
 from logger import Log
 from storageBucketManager import Bucket
 from storageGetter import BucketGetter, FileGetter
@@ -70,7 +68,6 @@ class File:
 
     def write_to_file(self, message):
         try:
-            """Write and read a blob from GCS using file-like IO"""
             bucket = self.__bucket.get_bucket()
             blob = bucket.blob(self.file_name)
 
@@ -79,11 +76,10 @@ class File:
                 log.info(f"Message written in file '{self.file_name}'")
 
         except FileNotFoundError:
-            log.info("File not found.")
+            log.error("File not found.")
 
     def read_from_file(self):
         try:
-            """Write and read a blob from GCS using file-like IO"""
             bucket = self.__bucket.get_bucket()
             blob = bucket.blob(self.file_name)
 
@@ -92,7 +88,7 @@ class File:
                 print(f.read())
 
         except FileNotFoundError:
-            log.info("File not found.")
+            log.error("File not found.")
 
     def update_file_storage_class(self, storage_class):
         bucket = self.__bucket.get_bucket()

@@ -1,5 +1,3 @@
-# https://googleapis.github.io/google-cloud-python/latest/storage/index.html
-
 from logger import Log
 from cloudClient import CloudStorageClient
 from storageGetter import BucketGetter
