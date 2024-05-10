@@ -12,6 +12,11 @@ class BucketGetter:
         self.__storage_client = CloudStorageClient().get_client()
         self.bucket_name = bucket_name
 
+    def declare_bucket(self):
+        bucket = self.__storage_client.bucket(self.bucket_name)
+        log.info(f"Bucket '{self.bucket_name}' declared!")
+        return bucket
+
     def get_bucket(self):
         try:
             bucket = self.__storage_client.get_bucket(self.bucket_name)
@@ -46,12 +51,18 @@ class FileGetter:
         self.file_name = file_name
         self.bucket_name = bucket_name
 
+    def declare_file(self):
+        bucket = self.__bucket.get_bucket()
+        blob = bucket.blob(self.file_name)
+        log.info(f"File '{self.file_name}' from buket '{self.bucket_name}' declared!")
+        return blob
+
     def get_file(self):
         try:
             bucket = self.__bucket.get_bucket()
-            blob = bucket.blob(self.file_name)
+            blob = bucket.get_blob(self.file_name)
             log.info(f"File '{self.file_name}' from buket '{self.bucket_name}' returned!")
-            return
+            return blob
         except Exception as e:
             log.error(f"File '{self.file_name}' not exists.")
 
@@ -71,3 +82,4 @@ class FileGetter:
         else:
             log.error(f"Failed to retrieve file size for '{self.file_name}'. Blob size is None.")
             return None
+

@@ -4,7 +4,7 @@ import os
 from abc import ABC, abstractmethod
 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\sa\smooth-tesla-413121-a1ac05929582.json"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\ECHIERDF9\OneDrive - NTT DATA EMEAL\Desktop\sa\smooth-tesla-413121-a1ac05929582.json"
 
 log_instance = Log()
 log = log_instance.logger()
@@ -30,8 +30,6 @@ class CloudStorageClient(CloudClient):
         if not self.client:
             self.connect()
         return self.client
-
-
 
 
 
