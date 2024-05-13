@@ -8,7 +8,7 @@ log_instance = Log()
 log = log_instance.logger()
 
 class BucketGetter:
-    def __init__(self, bucket_name):
+    def __init__(self, bucket_name=None):
         self.__storage_client = CloudStorageClient().get_client()
         self.bucket_name = bucket_name
 
@@ -25,11 +25,36 @@ class BucketGetter:
         except Exception as e:
             log.error(f"Bucket '{self.bucket_name}' not exists.")
 
+    def list_buckets(self, prefix=None):
+        """Lists all buckets in the project."""
+        client = self.__storage_client
+        buckets = client.list_buckets(prefix=prefix)
+        log.info("Listing buckets...")
+
+        metadata = []
+        num_buckets = 0
+        for bucket in buckets:
+            metadata.append({
+                'name': bucket.name,
+                'created_time': bucket.time_created.strftime("%Y-%m-%dT%H:%M:%S"),
+                'storage_class': bucket.storage_class
+            })
+            num_buckets += 1
+
+        log.info(f"There are {num_buckets} buckets in current project: {metadata}")
+        return metadata
+
+
+
+        # bucket_names = [bucket.name for bucket in buckets]
+        # log.info(f"Buckets list: {bucket_names}")
+        # return bucket_names
+
     def list_files(self, prefix=None):
         """Lists all the blobs in the bucket."""
         bucket = self.get_bucket()
         list_of_files = bucket.list_blobs(prefix=prefix, versions=False)
-        log.info(f"Listing files in bucket '{self.bucket_name}'")
+        log.info(f"Listing objects in bucket '{self.bucket_name}'")
 
         metadata = []
         num_files = 0
@@ -37,11 +62,12 @@ class BucketGetter:
             metadata.append({
                 'name': file.name,
                 'size_in_bytes': file.size,
-                'created_time': file.time_created.strftime("%Y-%m-%dT%H:%M:%S")
+                'created_time': file.time_created.strftime("%Y-%m-%dT%H:%M:%S"),
+                'storage_class': file.storage_class
             })
             num_files += 1
 
-        log.info(f"There are {num_files} files in bucket '{self.bucket_name}': {metadata}")
+        log.info(f"There are {num_files} objects in bucket '{self.bucket_name}': {metadata}")
         return metadata
 
 
@@ -66,7 +92,11 @@ class FileGetter:
         except Exception as e:
             log.error(f"File '{self.file_name}' not exists.")
 
-    # tirare fuori oppure chiamare la size dirattemente nel managestoragefile
+
+
+
+
+    # tirare fuori oppure chiamare la size dirattemente nel managestoragefile come metadato
     def get_file_size(self):
         """Get the size of a GCS file."""
         bucket = self.__bucket.get_bucket()
