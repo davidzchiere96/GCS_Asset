@@ -11,15 +11,14 @@ log = log_instance.logger()
 class Bucket:
     def __init__(self, bucket_name):
 
-        """API connectors"""
+        """API connectors"""""""""""""""""""""""""""""""""""""""""""""
         self.__storage_client = CloudStorageClient().get_client()
         self.__bucket_getter = BucketGetter(bucket_name)
         self.__declare_bucket = self.__bucket_getter.declare_bucket()
         self.__get_bucket = self.__bucket_getter.get_bucket()
-
         self.input_bucket_name = bucket_name
 
-        """Bucket Metadata"""
+        """Bucket Metadata"""""""""""""""""""""""""""""""""""""""""""""
         self.id = self.__declare_bucket.id
         self.name = self.__declare_bucket.name
         self.storage_class = self.__declare_bucket.storage_class
@@ -29,27 +28,26 @@ class Bucket:
         self.time_created = self.__declare_bucket.time_created
         self.versioning = self.__declare_bucket.versioning_enabled
         self.labels = self.__declare_bucket.labels
+        self.retention_period = self.__declare_bucket.retention_period
+        self.object_retention_mode = self.__declare_bucket.object_retention_mode
 
 
-        # print(f"Cors: {bucket.cors}")
-        # print(f"Default Event Based Hold: {bucket.default_event_based_hold}")
+
+        # self.retention_policy_effective_time
+        # self.retention_policy_locked
+        # self.cors = self.__declare_bucket.cors
+        # self.default_event_based_hold = self.__declare_bucket.default_event_based_hold
         # print(f"Default KMS Key Name: {bucket.default_kms_key_name}")
         # print(f"Metageneration: {bucket.metageneration}")
         # print(
         #     f"Public Access Prevention: {bucket.iam_configuration.public_access_prevention}"
         # )
-        # print(f"Retention Effective Time: {bucket.retention_policy_effective_time}")
-        # print(f"Retention Period: {bucket.retention_period}")
-        # print(f"Retention Policy Locked: {bucket.retention_policy_locked}")
-        # print(f"Object Retention Mode: {bucket.object_retention_mode}")
         # print(f"Requester Pays: {bucket.requester_pays}")
         # print(f"Self Link: {bucket.self_link}")
 
-
-
-
     def create_bucket(self, local_zone="eu", storage_class="Standard"):
-        self.storage_class = storage_class
+        # self.location = local_zone
+        # self.storage_class = storage_class
         new_bucket = self.__storage_client.create_bucket(self.input_bucket_name, location=local_zone)
         # self.storage_class = storage_class
         log.info(
@@ -57,29 +55,32 @@ class Bucket:
             f"with storage class '{storage_class}'"
         )
 
-    def delete_bucket(self):
+    def delete_bucket(self,force=True):
         # bucket = self.__bucket_getter.get_bucket()
         bucket = self.__get_bucket
-        bucket.delete(force=True)
-        log.info(f"Bucket '{self.input_bucket_name}' deleted!")
+        bucket.delete(force=force)
+        log.info(f"Bucket '{self.name}' deleted!")
 
-    # TODO
-    # def update_bucket_location(self):
-
+    """Deprecated"""
+    # def update_bucket_location(self, local_zone="eu"):
+    #    bucket = self.__get_bucket
+    #    bucket.location = local_zone
+    #    log.info(f"Location for bucket '{self.name}' has been set to '{local_zone}'.")
 
     def update_bucket_storage_class(self, storage_class="Standard"):
         bucket = self.__get_bucket
         bucket.storage_class = storage_class   # constants.COLDLINE_STORAGE_CLASS
         bucket.patch()
-        log.info(f"Default storage class for bucket '{self.input_bucket_name}' has been set to '{bucket.storage_class}'")
+        log.info(f"Default storage class for bucket '{self.input_bucket_name}' has been set to '{bucket.storage_class}'.")
         return
 
 
 
-bucket = Bucket("bucket_chieregatod_gcs_asset")
+# bucket = Bucket("bucket_chieregatod_gcs_asset")
+# bucket.update_bucket_location()
 # bucket.delete_bucket()
 # bucket = Bucket("bucket_chieregatod_test")
-bucket.update_bucket_storage_class()
+# bucket.update_bucket_location()
 # bucket.create_bucket(storage_class="NEARLINE")
 # bucket=bucket.create_bucket("europe-west8")
 
