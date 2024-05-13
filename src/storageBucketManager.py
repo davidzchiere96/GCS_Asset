@@ -31,8 +31,6 @@ class Bucket:
         self.retention_period = self.__declare_bucket.retention_period
         self.object_retention_mode = self.__declare_bucket.object_retention_mode
 
-
-
         # self.retention_policy_effective_time
         # self.retention_policy_locked
         # self.cors = self.__declare_bucket.cors
@@ -45,6 +43,7 @@ class Bucket:
         # print(f"Requester Pays: {bucket.requester_pays}")
         # print(f"Self Link: {bucket.self_link}")
 
+
     def create_bucket(self, local_zone="eu", storage_class="Standard"):
         # self.location = local_zone
         # self.storage_class = storage_class
@@ -54,12 +53,31 @@ class Bucket:
             f"New bucket '{self.input_bucket_name}' created in local zone '{local_zone}' "
             f"with storage class '{storage_class}'"
         )
+        return
 
     def delete_bucket(self,force=True):
         # bucket = self.__bucket_getter.get_bucket()
         bucket = self.__get_bucket
         bucket.delete(force=force)
         log.info(f"Bucket '{self.name}' deleted!")
+        return
+
+    def print_bucket_metadata(self):
+        metadata = {
+            'id': self.id,
+            'name': self.name,
+            'storage_class': self.storage_class,
+            'location': self.location,
+            'location_type': self.location_type,
+            'lifecycle_rules': self.lifecycle_rules,
+            'time_created': self.time_created,
+            'versioning': self.versioning,
+            'labels': self.labels,
+            'retention_period': self.retention_period,
+            'object_retention_mode': self.object_retention_mode,
+        }
+        log.info(f"Bucket {self.name} metadata: {metadata}")
+        return
 
     """Deprecated"""
     # def update_bucket_location(self, local_zone="eu"):
@@ -71,13 +89,13 @@ class Bucket:
         bucket = self.__get_bucket
         bucket.storage_class = storage_class   # constants.COLDLINE_STORAGE_CLASS
         bucket.patch()
-        log.info(f"Default storage class for bucket '{self.input_bucket_name}' has been set to '{bucket.storage_class}'.")
+        log.info(f"Default storage class for bucket '{self.name}' has been set to '{bucket.storage_class}'.")
         return
 
 
 
 # bucket = Bucket("bucket_chieregatod_gcs_asset")
-# bucket.update_bucket_location()
+# bucket.print_bucket_metadata()
 # bucket.delete_bucket()
 # bucket = Bucket("bucket_chieregatod_test")
 # bucket.update_bucket_location()
