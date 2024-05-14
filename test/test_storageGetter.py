@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 from cloudClient import CloudStorageClient
 from storageGetter import BucketGetter, FileGetter
-
+import datetime
 
 class TestBucketGetter(unittest.TestCase):
 
@@ -53,6 +53,40 @@ class TestBucketGetter(unittest.TestCase):
 
         # assert
         # mock_log.error.assert_called_once_with("Error connecting to storage client: Connection error")
+
+
+    @patch('storageGetter.CloudStorageClient.get_client')  # Patchiamo il CloudStorageClient
+    @patch('cloudClient.Log')
+    def test_list_buckets(self, mock_log, mock_storage_client):
+        # mock_list_buckets = MagicMock()
+        mock_buckets = [
+             MagicMock(name="Bucket1", time_created="2024-05-02T10:30:00", storage_class="STANDARD"),
+             MagicMock(name="Bucket2", time_created="2024-05-02T10:30:00", storage_class="NEARLINE")
+        ]
+        mock_storage_client.return_value.list_buckets.return_value = mock_buckets
+
+        bucket_getter = BucketGetter()
+        result = bucket_getter.list_buckets()
+
+        expected_metadata = [
+            {
+                'name': "Bucket1",
+                'created_time': "2024-05-02T10:30:00",
+                'storage_class': "STANDARD"
+            },
+            {
+                'name': "Bucket2",
+                'created_time': "2024-05-02T10:30:00",
+                'storage_class': "NEARLINE"
+            }
+        ]
+
+        self.assertEqual(result, expected_metadata)
+
+        # mock_bucket_instance.blob.assert_called_once_with("test_file")
+        # mock_log.info.assert_called_once_with("Bucket 'test_bucket' declared!")
+        # self.assertEqual(result, mock_bucket_instance.blob.return_value)
+
 
     # TODO: def test_list_buckets
     # TODO: def test_list_files
