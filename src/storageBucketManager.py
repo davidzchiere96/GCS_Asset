@@ -53,7 +53,7 @@ class Bucket:
             f"New bucket '{self.input_bucket_name}' created in local zone '{local_zone}' "
             f"with storage class '{storage_class}'"
         )
-        return
+        return new_bucket
 
     def delete_bucket(self,force=True):
         # bucket = self.__bucket_getter.get_bucket()
@@ -95,7 +95,6 @@ class Bucket:
         log.info(f"Default storage class for bucket '{self.name}' has been set to '{bucket.storage_class}'.")
         return
 
-    """ Life Cycle Rules """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     def update_lifecycle_rules(self, operation="ADD", new_lifecycle_rules=None):  # parameters: action, value, interval
         bucket = self.__get_bucket
         if operation.strip().upper()=="ADD":
@@ -114,7 +113,6 @@ class Bucket:
             log.warning(f"No Lifecycle operation '{operation}' performed. Try with 'ADD' or 'CLEAR' operations.")
 
 
-    """ Versioning """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     def set_versioning(self, versioning_flag=True):
         bucket = self.__get_bucket
         bucket.versioning_enabled = versioning_flag

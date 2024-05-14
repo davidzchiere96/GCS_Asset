@@ -2,25 +2,26 @@ import unittest
 from unittest.mock import MagicMock, patch
 from cloudClient import CloudStorageClient
 from storageGetter import BucketGetter, FileGetter
+from storageBucketManager import Bucket
 
 class TestBucket(unittest.TestCase):
 
-    @patch('my_module.CloudStorageClient')  # Patchiamo il CloudStorageClient
-    def test_get_bucket_success(self, mock_cloud_storage_client):
+    @patch('storageGetter.CloudStorageClient.get_client')  # Patchiamo il CloudStorageClient
+    def test_create_bucket(self, mock_cloud_storage_client, local_zone="eu", storage_class="Standard"):
         # Arrange
         bucket_name = "test_bucket"
         mock_client_instance = MagicMock()  # Creiamo un mock dell'istanza del client
-        mock_get_bucket = MagicMock()  # Creiamo un mock per il metodo get_bucket
-        mock_client_instance.get_bucket = mock_get_bucket  # Configuriamo il mock del client per restituire il mock di get_bucket
-        mock_cloud_storage_client.return_value.get_client.return_value = mock_client_instance  # Configuriamo il mock per restituire un'istanza mockata del client
-        bucket_getter = BucketGetter(bucket_name)
+        mock_create_bucket = MagicMock()  # Creiamo un mock per il metodo get_bucket
+        mock_client_instance.create_bucket = mock_create_bucket  # Configuriamo il mock del client per restituire il mock di get_bucket
+        mock_cloud_storage_client.return_value.create_bucket.return_value = mock_client_instance  # Configuriamo il mock per restituire un'istanza mockata del client
+        bucket = Bucket(bucket_name)
 
         # Act
-        bucket = bucket_getter.get_bucket()
+        create_bucket = bucket.create_bucket()
 
         # Assert
-        self.assertEqual(bucket, mock_get_bucket.return_value)  # Verifichiamo se il bucket restituito è quello restituito dal client mockato
-        mock_cloud_storage_client.return_value.get_client.assert_called_once()  # Verifichiamo se il metodo get_client di CloudStorageClient è stato chiamato
+        self.assertEqual(create_bucket, mock_create_bucket.return_value)  # Verifichiamo se il bucket restituito è quello restituito dal client mockato
+        mock_cloud_storage_client.return_value.create_bucket.assert_called_once()  # Verifichiamo se il metodo get_client di CloudStorageClient è stato chiamato
 
 
     @patch('storageGetter.CloudStorageClient.get_client')
