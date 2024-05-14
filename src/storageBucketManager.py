@@ -28,8 +28,8 @@ class Bucket:
         self.versioning = self.__declare_bucket.versioning_enabled
         self.labels = self.__declare_bucket.labels
         self.retention_period = self.__declare_bucket.retention_period
-        self.object_retention_mode = self.__declare_bucket.object_retention_mode
 
+        # self.object_retention_mode = self.__declare_bucket.object_retention_mode
         # self.retention_policy_effective_time
         # self.retention_policy_locked
         # self.cors = self.__declare_bucket.cors
@@ -123,9 +123,17 @@ class Bucket:
         log.info(f"Versioning set to '{versioning_flag}' for bucket {self.name}")
         return
 
+    def update_retention_policy(self, retention_period=None):
+        bucket = self.__declare_bucket
+        bucket.retention_period = retention_period
+        bucket.patch()
+
+        log.info(f"Retention period set to '{retention_period}' seconds for bucket {self.name}")
+        return
+
 
 # bucket = Bucket("bucket_chieregatod_gcs_asset")
-# bucket.print_bucket_metadata()
+# bucket.update_retention_policy()
 # rules = [
 #         {
 #             "action": {"type": "Delete"},
@@ -144,39 +152,6 @@ class Bucket:
 # bucket.update_bucket_location()
 # bucket.create_bucket(storage_class="NEARLINE")
 # bucket=bucket.create_bucket("europe-west8")
-
-    # TODO: controllo versioni degli oggetti
-
-    # TODO: def lifecycle_management
-    # def enable_bucket_lifecycle_management(self):
-    #     # bucket_name = "my-bucket"
-    #     bucket = self.__get_bucket
-    #     lifecycle_rules = bucket.lifecycle_rules
-    #
-    #     print(f"Lifecycle management rules for bucket {self.name} are {list(lifecycle_rules)}")
-    #     bucket.add_lifecycle_delete_rule(age=2)
-    #     bucket.patch()
-    #
-    #     lifecycle_rules = bucket.lifecycle_rules
-    #     print(f"Lifecycle management is enable for bucket {self.name} and the rules are {list(lifecycle_rules)}")
-    #
-    #     return bucket
-    #
-    # def disable_bucket_lifecycle_management(bucket_name):
-    #     """Disable lifecycle management for a bucket"""
-    #     # bucket_name = "my-bucket"
-    #
-    #     storage_client = storage.Client()
-    #
-    #     bucket = storage_client.get_bucket(bucket_name)
-    #     bucket.clear_lifecyle_rules()
-    #     bucket.patch()
-    #     rules = bucket.lifecycle_rules
-    #
-    #     print(f"Lifecycle management is disable for bucket {bucket_name} and the rules are {list(rules)}")
-    #     return bucket
-    #
-
 
 
 
