@@ -1,5 +1,4 @@
 from logger import Log
-from google.cloud.storage import constants
 from cloudClient import CloudStorageClient
 from storageGetter import BucketGetter
 import inputRequests
@@ -49,6 +48,7 @@ class Bucket:
         # self.storage_class = storage_class
         new_bucket = self.__storage_client.create_bucket(self.input_bucket_name, location=local_zone)
         # self.storage_class = storage_class
+
         log.info(
             f"New bucket '{self.input_bucket_name}' created in local zone '{local_zone}' "
             f"with storage class '{storage_class}'"
@@ -59,6 +59,7 @@ class Bucket:
         # bucket = self.__bucket_getter.get_bucket()
         bucket = self.__get_bucket
         bucket.delete(force=force)
+
         log.info(f"Bucket '{self.name}' deleted!")
         return
 
@@ -76,10 +77,11 @@ class Bucket:
             'retention_period': self.retention_period,
             'object_retention_mode': self.object_retention_mode,
         }
+
         log.info(f"Bucket {self.name} metadata: {metadata}")
         return
 
-    """Deprecated"""
+    # """Deprecated"""
     # def update_bucket_location(self, local_zone="eu"):
     #    bucket = self.__get_bucket
     #    bucket.location = local_zone
@@ -89,13 +91,54 @@ class Bucket:
         bucket = self.__get_bucket
         bucket.storage_class = storage_class   # constants.COLDLINE_STORAGE_CLASS
         bucket.patch()
+
         log.info(f"Default storage class for bucket '{self.name}' has been set to '{bucket.storage_class}'.")
         return
 
+    """ Life Cycle Rules """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    def update_lifecycle_rules(self, operation="ADD", new_lifecycle_rules=None):  # parameters: action, value, interval
+        bucket = self.__get_bucket
+        if operation.strip().upper()=="ADD":
+            current_rules = list(bucket.lifecycle_rules)
+            current_rules.extend(new_lifecycle_rules)
+            bucket.lifecycle_rules = current_rules
+            bucket.patch()
+            log.info(f"Lifecycle rules added successfully for bucket '{self.name}'.")
+
+        elif operation.strip().upper()=="CLEAR":
+            bucket.clear_lifecycle_rules()
+            bucket.patch()
+            log.info(f"Lifecycle rules deleted successfully for bucket '{self.name}'.")
+
+        else:
+            log.warning(f"No Lifecycle operation '{operation}' performed. Try with 'ADD' or 'CLEAR' operations.")
+
+
+    """ Versioning """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    def set_versioning(self, versioning_flag=True):
+        bucket = self.__get_bucket
+        bucket.versioning_enabled = versioning_flag
+        bucket.patch()
+
+        log.info(f"Versioning set to '{versioning_flag}' for bucket {self.name}")
+        return
 
 
 # bucket = Bucket("bucket_chieregatod_gcs_asset")
 # bucket.print_bucket_metadata()
+# rules = [
+#         {
+#             "action": {"type": "Delete"},
+#             "condition": {"age": 60}  # Delete objects after 30 days
+#         }
+#     ]
+# rules = [
+#         {
+#             "action": {"type": "SetStorageClass", "storageClass": "NEARLINE"},
+#             "condition": {"age": 30}  # Move objects to Nearline storage class after 30 days
+#         }
+#     ]
+# bucket.update_lifecycle_rules("add",rules)
 # bucket.delete_bucket()
 # bucket = Bucket("bucket_chieregatod_test")
 # bucket.update_bucket_location()
@@ -133,34 +176,7 @@ class Bucket:
     #     print(f"Lifecycle management is disable for bucket {bucket_name} and the rules are {list(rules)}")
     #     return bucket
     #
-    # def get_bucket_metadata(bucket_name):
-    #     """Prints out a bucket's metadata."""
-    #     # bucket_name = 'your-bucket-name'
-    #
-    #     storage_client = storage.Client()
-    #     bucket = storage_client.get_bucket(bucket_name)
-    #
-    #     print(f"ID: {bucket.id}")
-    #     print(f"Name: {bucket.name}")
-    #     print(f"Storage Class: {bucket.storage_class}")
-    #     print(f"Location: {bucket.location}")
-    #     print(f"Location Type: {bucket.location_type}")
-    #     print(f"Cors: {bucket.cors}")
-    #     print(f"Default Event Based Hold: {bucket.default_event_based_hold}")
-    #     print(f"Default KMS Key Name: {bucket.default_kms_key_name}")
-    #     print(f"Metageneration: {bucket.metageneration}")
-    #     print(
-    #         f"Public Access Prevention: {bucket.iam_configuration.public_access_prevention}"
-    #     )
-    #     print(f"Retention Effective Time: {bucket.retention_policy_effective_time}")
-    #     print(f"Retention Period: {bucket.retention_period}")
-    #     print(f"Retention Policy Locked: {bucket.retention_policy_locked}")
-    #     print(f"Object Retention Mode: {bucket.object_retention_mode}")
-    #     print(f"Requester Pays: {bucket.requester_pays}")
-    #     print(f"Self Link: {bucket.self_link}")
-    #     print(f"Time Created: {bucket.time_created}")
-    #     print(f"Versioning Enabled: {bucket.versioning_enabled}")
-    #     print(f"Labels: {bucket.labels}")
+
 
 
 

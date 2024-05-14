@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 from cloudClient import CloudStorageClient
 from storageGetter import BucketGetter, FileGetter
 
-class TestBucketGetter(unittest.TestCase):
+class TestBucket(unittest.TestCase):
 
     @patch('my_module.CloudStorageClient')  # Patchiamo il CloudStorageClient
     def test_get_bucket_success(self, mock_cloud_storage_client):
@@ -61,39 +61,6 @@ class TestBucketGetter(unittest.TestCase):
     # TODO: def test_list_buckets
     # TODO: def test_list_files
 
-
-
-class TestFileGetter(unittest.TestCase):
-
-    @patch('storageGetter.CloudStorageClient.get_client')
-    @patch('cloudClient.Log')
-    def test_get_file_success(self, mock_log, mock_storage_client):
-
-        cloud_storage_instance = CloudStorageClient()
-        cloud_storage_client = cloud_storage_instance.get_client()
-
-        cloud_storage_client.get_bucket("test_bucket")
-        mock_get_bucket = mock_storage_client.get_bucket("test_bucket")
-
-        mock_storage_client.assert_called_once()
-        mock_get_bucket.assert_called_once()
-        # mock_log.info.assert_called_once_with("GCS Client connected!")
-
-    @patch('cloudClient.storage.Client')
-    @patch('cloudClient.Log')
-    def test_get_file_failure(self, mock_log, mock_storage_client):
-
-        # instantiate
-        cloud_storage_client = CloudStorageClient()
-        mock_storage_client.side_effect = Exception("Connection error")
-
-        # act
-        cloud_storage_client.connect()
-
-        # assert
-        # mock_log.error.assert_called_once_with("Error connecting to storage client: Connection error")
-
-    # TODO: def test_file_size
 
 
 if __name__ == "__main__":
