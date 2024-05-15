@@ -2,6 +2,7 @@ import os
 from logger import Log
 from cloudClient import CloudStorageClient
 import inputRequests
+from datetime import datetime
 
 
 log_instance = Log()
@@ -34,9 +35,10 @@ class BucketGetter:
         metadata = []
         num_buckets = 0
         for bucket in buckets:
+            created_time = datetime.strptime(bucket.time_created, "%Y-%m-%dT%H:%M:%S")
             metadata.append({
                 'name': bucket.name,
-                'created_time': bucket.time_created.strftime("%Y-%m-%dT%H:%M:%S"),
+                'created_time': created_time.strftime("%Y-%m-%dT%H:%M:%S"),
                 'storage_class': bucket.storage_class
             })
             num_buckets += 1

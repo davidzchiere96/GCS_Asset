@@ -65,6 +65,9 @@ class TestBucketGetter(unittest.TestCase):
         ]
         mock_storage_client.return_value.list_buckets.return_value = mock_buckets
 
+        mock_buckets[0].name = "Bucket1"
+        mock_buckets[1].name = "Bucket2"
+
         bucket_getter = BucketGetter()
         result = bucket_getter.list_buckets()
 
@@ -82,13 +85,11 @@ class TestBucketGetter(unittest.TestCase):
         ]
 
         self.assertEqual(result, expected_metadata)
-
-        # mock_bucket_instance.blob.assert_called_once_with("test_file")
+        mock_storage_client.return_value.list_buckets.assert_called_once_with(prefix=None)
         # mock_log.info.assert_called_once_with("Bucket 'test_bucket' declared!")
         # self.assertEqual(result, mock_bucket_instance.blob.return_value)
 
 
-    # TODO: def test_list_buckets
     # TODO: def test_list_files
 
 
