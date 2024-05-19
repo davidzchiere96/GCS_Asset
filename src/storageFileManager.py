@@ -18,6 +18,7 @@ class File:
         self.file_name = file_name
         self.bucket_name = bucket_name
         self.local_file_path = local_file_path
+        self.file_size = self.__file.get_file_size()
 
     def upload_file(self):
         bucket = self.__bucket.get_bucket()
@@ -39,23 +40,29 @@ class File:
 
         return
 
-    def download_file(self):
+    def download_file(self,mode=None):
         bucket = self.__bucket.get_bucket()
         blob = bucket.blob(self.file_name)
-        file_size = self.__file.get_file_size()
+        file_size = self.file_size  # self.__file.get_file_size()
 
-        if file_size > 1:
-            # MANCA PROCEDURA DI GRACEFUL SHUTDOWN
-            """Download a large file from GCS using streaming"""
-            with open(self.local_file_path, "wb") as f:
-                blob.download_to_file(f)
-            log.info(f"streaming...")
-            log.info(f"File '{self.bucket_name}/{self.file_name}' downloaded to '{self.local_file_path}'")
-            return
+        if file_size > 1.0:
+            if mode.strip().upper() == "STRING":
+                log.warning(f"File '{self.bucket_name}/{self.file_name}' size is too big to download as a string.")
+            else:
+                # MANCA PROCEDURA DI GRACEFUL SHUTDOWN
+                """Download a large file from GCS using streaming"""
+                with open(self.local_file_path, "wb") as f:
+                    blob.download_to_file(f)
+                log.info(f"streaming...")
+                log.info(f"File '{self.bucket_name}/{self.file_name}' downloaded to '{self.local_file_path}'")
 
         else:
-            file_to_download = blob.download_to_filename(self.local_file_path)
-            log.info(f"File '{self.file_name}' downloaded from bucket '{self.bucket_name}' to '{self.local_file_path}'.")
+            if mode.strip().upper() == "STRING":
+                result = blob.download_as_string()
+                log.info(f"File '{self.bucket_name}/{self.file_name}' downloaded as a string: '{result}'")
+            else:
+                file_to_download = blob.download_to_filename(self.local_file_path)
+                log.info(f"File '{self.bucket_name}/{self.file_name}' downloaded to '{self.local_file_path}'.")
 
         return
 
