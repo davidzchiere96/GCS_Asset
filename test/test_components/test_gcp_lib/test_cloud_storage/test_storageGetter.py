@@ -1,13 +1,13 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from cloudClient import CloudStorageClient
-from storageGetter import BucketGetter, FileGetter
+from components.gcp_lib.cloudClientConnector import CloudStorageClient
+from components.gcp_lib.cloud_storage.storageGetter import BucketGetter, FileGetter
 import datetime
 
 class TestBucketGetter(unittest.TestCase):
 
-    @patch('storageGetter.CloudStorageClient')
-    @patch('storageGetter.Log')
+    @patch('components.gcp_lib.cloud_storage.storageGetter.CloudStorageClient')
+    @patch('components.gcp_lib.cloud_storage.storageGetter.Log')
     def test_declare_bucket(self, mock_log, mock_storage_client):
         # Arrange
         bucket_name = "test_bucket"
@@ -22,8 +22,8 @@ class TestBucketGetter(unittest.TestCase):
         # mock_log.info.assert_called_once_with("Bucket 'test_bucket' declared!")
         self.assertEqual(result, mock_client_instance.bucket.return_value)
 
-    @patch('storageGetter.CloudStorageClient')  # Patchiamo il CloudStorageClient
-    @patch('cloudClient.Log')
+    @patch('components.gcp_lib.cloud_storage.storageGetter.CloudStorageClient')  # Patchiamo il CloudStorageClient
+    @patch('components.gcp_lib.cloudClientConnector.Log')
     def test_get_bucket_success(self, mock_log, mock_cloud_storage_client):
         # Arrange
         bucket_name = "test_bucket"
@@ -40,8 +40,8 @@ class TestBucketGetter(unittest.TestCase):
         self.assertEqual(bucket, mock_get_bucket.return_value)  # Verifichiamo se il bucket restituito è quello restituito dal client mockato
         mock_cloud_storage_client.return_value.get_client.assert_called_once()  # Verifichiamo se il metodo get_client di CloudStorageClient è stato chiamato
 
-    @patch('cloudClient.storage.Client')
-    @patch('cloudClient.Log')
+    @patch('components.gcp_lib.cloudClientConnector.storage.Client')
+    @patch('components.gcp_lib.cloudClientConnector.Log')
     def test_get_bucket_failure(self, mock_log, mock_storage_client):
 
         # instantiate
@@ -55,8 +55,8 @@ class TestBucketGetter(unittest.TestCase):
         # mock_log.error.assert_called_once_with("Error connecting to storage client: Connection error")
 
 
-    @patch('storageGetter.CloudStorageClient.get_client')  # Patchiamo il CloudStorageClient
-    @patch('cloudClient.Log')
+    @patch('components.gcp_lib.cloud_storage.storageGetter.CloudStorageClient.get_client')  # Patchiamo il CloudStorageClient
+    @patch('components.gcp_lib.cloudClientConnector.Log')
     def test_list_buckets(self, mock_log, mock_storage_client):
         # mock_list_buckets = MagicMock()
         mock_buckets = [
@@ -88,8 +88,8 @@ class TestBucketGetter(unittest.TestCase):
         mock_storage_client.return_value.list_buckets.assert_called_once_with(prefix=None)
 
 
-    @patch('storageGetter.CloudStorageClient.get_client')  # Patchiamo il CloudStorageClient
-    @patch('cloudClient.Log')
+    @patch('components.gcp_lib.cloud_storage.storageGetter.CloudStorageClient.get_client')  # Patchiamo il CloudStorageClient
+    @patch('components.gcp_lib.cloudClientConnector.Log')
     def test_list_files(self, mock_log, mock_storage_client):
         # mock_list_buckets = MagicMock()
         mock_buckets = [
@@ -125,8 +125,8 @@ class TestBucketGetter(unittest.TestCase):
 
 class TestFileGetter(unittest.TestCase):
 
-    @patch('storageGetter.CloudStorageClient.get_client')
-    @patch('storageGetter.Log')
+    @patch('components.gcp_lib.cloud_storage.storageGetter.CloudStorageClient.get_client')
+    @patch('components.gcp_lib.cloud_storage.storageGetter.Log')
     def test_declare_file(self, mock_log, mock_storage_client):
         # Arrange
         bucket_name = "test_bucket"
@@ -142,8 +142,8 @@ class TestFileGetter(unittest.TestCase):
         # mock_log.info.assert_called_once_with("Bucket 'test_bucket' declared!")
         self.assertEqual(result, mock_bucket_instance.blob.return_value)
 
-    @patch('storageGetter.CloudStorageClient.get_client')
-    @patch('cloudClient.Log')
+    @patch('components.gcp_lib.cloud_storage.storageGetter.CloudStorageClient.get_client')
+    @patch('components.gcp_lib.cloudClientConnector.Log')
     def test_get_file_success(self, mock_log, mock_storage_client):
         # Arrange
         bucket_name = "test_bucket"
@@ -162,8 +162,8 @@ class TestFileGetter(unittest.TestCase):
         self.assertEqual(result, mock_get_blob.return_value)
 
 
-    @patch('cloudClient.storage.Client')
-    @patch('cloudClient.Log')
+    @patch('components.gcp_lib.cloudClientConnector.storage.Client')
+    @patch('components.gcp_lib.cloudClientConnector.Log')
     def test_get_file_failure(self, mock_log, mock_storage_client):
         # instantiate
         cloud_storage_client = CloudStorageClient()

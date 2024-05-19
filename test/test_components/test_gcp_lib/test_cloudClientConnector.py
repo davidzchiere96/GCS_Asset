@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from cloudClient import CloudStorageClient
+from components.gcp_lib.cloudClientConnector import CloudStorageClient
 
 class TestCloudStorageClient(unittest.TestCase):
 
     # patch per mockare le due chiamate
-    @patch('cloudClient.storage.Client')
-    @patch('cloudClient.Log')
+    @patch('components.gcp_lib.cloudClientConnector.storage.Client')
+    @patch('components.gcp_lib.cloudClientConnector.Log')
     def test_connect_success(self, mock_log, mock_storage_client):
 
         # istanziamo un oggetto della classe CloudStorageClient su cui poi fare il test
@@ -19,8 +19,8 @@ class TestCloudStorageClient(unittest.TestCase):
         mock_storage_client.assert_called_once()  # Verifica se storage.Client() è stato chiamato esattamente una volta
         # mock_log.info.assert_called_once_with("GCS Client connected!")
 
-    @patch('cloudClient.storage.Client')
-    @patch('cloudClient.Log')
+    @patch('components.gcp_lib.cloudClientConnector.storage.Client')
+    @patch('components.gcp_lib.cloudClientConnector.Log')
     def test_connect_failure(self, mock_log, mock_storage_client):
 
         # instantiate
@@ -33,14 +33,14 @@ class TestCloudStorageClient(unittest.TestCase):
         # assert
         # mock_log.error.assert_called_once_with("Error connecting to storage client: Connection error")
 
-    @patch('cloudClient.CloudStorageClient.connect')
+    @patch('components.gcp_lib.cloudClientConnector.CloudStorageClient.connect')
     def test_get_client_if_not_connected(self, mock_storage_client_connect):
 
         cloud_storage_client = CloudStorageClient()
         cloud_storage_client.get_client()
         mock_storage_client_connect.assert_called_once()
 
-    @patch('cloudClient.storage.Client')
+    @patch('components.gcp_lib.cloudClientConnector.storage.Client')
     def test_get_client_if_connected(self, mock_storage_client):
 
         cloud_storage_client = CloudStorageClient()

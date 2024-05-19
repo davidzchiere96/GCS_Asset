@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import MagicMock, patch
-from cloudClient import CloudStorageClient
-from storageGetter import BucketGetter, FileGetter
-from storageBucketManager import Bucket
+from components.gcp_lib.cloudClientConnector import CloudStorageClient
+from components.gcp_lib.cloud_storage.storageGetter import BucketGetter, FileGetter
+from components.gcp_lib.cloud_storage.storageBucketManager import Bucket
 
 class TestBucket(unittest.TestCase):
 
-    @patch('storageGetter.CloudStorageClient.get_client')  # Patchiamo il CloudStorageClient
+    @patch('components.gcp_lib.cloud_storage.storageGetter.CloudStorageClient.get_client')  # Patchiamo il CloudStorageClient
     def test_create_bucket(self, mock_cloud_storage_client, local_zone="eu", storage_class="Standard"):
         # Arrange
         bucket_name = "test_bucket"
