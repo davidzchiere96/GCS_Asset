@@ -37,7 +37,7 @@ of GCS into your Python applications.
 
 The structure of the project is based on the Object Oriented Paradigm.
 ####
-The first two classes implemented in the **cloudClientConnector.py**:
+The first class implemented in the **cloudClientConnector.py**:
     
     class CloudStorageClient(CloudClient)
     -> Variables: client
@@ -45,25 +45,7 @@ The first two classes implemented in the **cloudClientConnector.py**:
         - def connect()
         - def get_client()
 
-    class BigQueryClient(CloudClient)
-    -> Variables: client
-    -> Methods:
-        - def connect()
-        - def get_client()
-
-    class PublisherClient(CloudClient)
-    -> Variables: client
-    -> Methods:
-        - def connect()
-        - def get_client()
-
-    class SubscriberClient(CloudClient)
-    -> Variables: client
-    -> Methods:
-        - def connect()
-        - def get_client()
-
-are used to encapsulate the Cloud Storage, BigQuery and Pub/Sub client connection operations.
+is used to encapsulate the Cloud Storage client connection operations.
 ####
 In the **storageGetter.py** other two classes are defined:
     
@@ -86,17 +68,12 @@ that consent to instantiate a Bucket object and a File object
 containing the get methods in order to have access to the storage object desired. 
 
 ####
-In the **bigQueryGetter.py** the connection to a BQ table is defined as follows:
-    
-    class TableGetter
-    -> Variables: table_id, __big_query_client
-    -> Methods:
-        - def declare_table()
-        - def get_table()
 
-All these classes are used in the "Manager" layer which represents the base modules
-used by tools like the **processer.main.py**.
-All the logs generated are customized in the **logger.py**.
+This classes are used in the "Manager" layer which represents the basic modules 
+on which to build an application. 
+It is composed by two main classes:
+(EXTEND WITH THE MANAGER CLASSES)
+Finally all the logs generated are customized in the **logger.py**.
 
 ## Code Flow
 
