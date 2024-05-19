@@ -14,15 +14,14 @@ class TestBucket(unittest.TestCase):
         mock_create_bucket = MagicMock()  # Creiamo un mock per il metodo get_bucket
         mock_client_instance.create_bucket = mock_create_bucket  # Configuriamo il mock del client per restituire il mock di get_bucket
         mock_cloud_storage_client.return_value.create_bucket.return_value = mock_client_instance  # Configuriamo il mock per restituire un'istanza mockata del client
-        bucket = Bucket(bucket_name)
 
         # Act
-        create_bucket = bucket.create_bucket()
+        bucket = Bucket(bucket_name)
+        create_bucket = bucket.create_bucket(local_zone="eu", storage_class="Standard")
 
         # Assert
-        self.assertEqual(create_bucket, mock_create_bucket.return_value)  # Verifichiamo se il bucket restituito è quello restituito dal client mockato
+        self.assertEqual(create_bucket, mock_client_instance)  # Verifichiamo se il bucket restituito è quello restituito dal client mockato
         mock_cloud_storage_client.return_value.create_bucket.assert_called_once()  # Verifichiamo se il metodo get_client di CloudStorageClient è stato chiamato
-
 
     @patch('storageGetter.CloudStorageClient.get_client')
     @patch('cloudClient.Log')
