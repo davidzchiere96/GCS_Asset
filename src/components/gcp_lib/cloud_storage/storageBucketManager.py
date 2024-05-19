@@ -1,7 +1,7 @@
-from logger import Log
-from cloudClient import CloudStorageClient
-from storageGetter import BucketGetter
-import inputRequests
+from components.logger import Log
+from components.gcp_lib.cloudClientConnector import CloudStorageClient
+from components.gcp_lib.cloud_storage.storageGetter import BucketGetter
+import components.inputRequests as inputRequests
 
 
 log_instance = Log()

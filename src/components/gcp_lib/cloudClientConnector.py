@@ -1,4 +1,4 @@
-from logger import Log
+from components.logger import Log
 from google.cloud import storage
 import os
 from abc import ABC, abstractmethod

@@ -1,8 +1,8 @@
-from storageBucketManager import Bucket, manage_bucket
-from storageFileManager import File, manage_file
-from storageGetter import FileGetter, BucketGetter
-from logger import Log
-import inputRequests
+from components.gcp_lib.cloud_storage.storageBucketManager import Bucket, manage_bucket
+from components.gcp_lib.cloud_storage.storageFileManager import File, manage_file
+from components.gcp_lib.cloud_storage.storageGetter import FileGetter, BucketGetter
+from components.logger import Log
+import components.inputRequests as inputRequests
 
 
 log_instance = Log()

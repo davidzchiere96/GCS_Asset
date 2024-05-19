@@ -1,8 +1,8 @@
-from logger import Log
-from storageBucketManager import Bucket
-from storageGetter import BucketGetter, FileGetter
-from localGetter import LocalFileGetter
-import inputRequests
+from components.logger import Log
+from components.gcp_lib.cloud_storage.storageBucketManager import Bucket
+from components.gcp_lib.cloud_storage.storageGetter import BucketGetter, FileGetter
+from components.localGetter import LocalFileGetter
+import components.inputRequests as inputRequests
 
 # Per implementare procedura di graceful shutdown
 

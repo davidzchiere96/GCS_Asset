@@ -1,7 +1,7 @@
 import os
-from logger import Log
-from cloudClient import CloudStorageClient
-import inputRequests
+from components.logger import Log
+from components.gcp_lib.cloudClientConnector import CloudStorageClient
+import components.inputRequests as inputRequests
 from datetime import datetime
 
 
