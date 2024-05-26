@@ -61,7 +61,7 @@ class Bucket:
         bucket.delete(force=force)
 
         log.info(f"Bucket '{self.name}' deleted!")
-        return
+        return "Bucket deleted"
 
     def print_bucket_metadata(self):
         metadata = {

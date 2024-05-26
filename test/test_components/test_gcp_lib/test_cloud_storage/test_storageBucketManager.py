@@ -23,6 +23,24 @@ class TestBucket(unittest.TestCase):
         self.assertEqual(create_bucket, mock_client_instance)  # Verifichiamo se il bucket restituito è quello restituito dal client mockato
         mock_cloud_storage_client.return_value.create_bucket.assert_called_once()  # Verifichiamo se il metodo get_client di CloudStorageClient è stato chiamato
 
+    @patch('components.gcp_lib.cloud_storage.storageGetter.CloudStorageClient.get_client')  # Patchiamo il CloudStorageClient
+    def test_delete_bucket(self, mock_cloud_storage_client):
+        # Arrange
+        bucket_name = "test_bucket_mock"
+        # mock_client_instance = MagicMock()
+        mock_bucket_instance = MagicMock()
+        mock_delete_bucket = MagicMock()
+        mock_bucket_instance.delete = mock_delete_bucket
+        mock_cloud_storage_client.return_value.get_bucket.return_value = mock_bucket_instance
+
+        bucket = Bucket(bucket_name)
+        result = bucket.delete_bucket(force=True)
+
+        # self.assertEqual(result, mock_delete_bucket)
+        self.assertEqual(result, "Bucket deleted")
+        mock_delete_bucket.assert_called_once_with(force=True)
+
+
     @patch('storageGetter.CloudStorageClient.get_client')
     @patch('cloudClient.Log')
     def test_get_bucket_success(self, mock_log, mock_storage_client):
